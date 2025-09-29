@@ -1,0 +1,36 @@
+{% extends "asset1/base.html" %}
+{% block content %}
+<h2>Assets</h2>
+<form method="get" class="row g-2 mb-3">
+  <div class="col-auto"><input class="form-control" name="q" placeholder="search" value="{{ request.GET.q }}"></div>
+  <div class="col-auto"><button class="btn btn-secondary">Filter</button></div>
+  <div class="col-auto"><a class="btn btn-primary" href="{% url 'asset1:asset-create' %}">Add asset</a></div>
+</form>
+
+<table class="table">
+  <thead><tr><th>Name</th><th>Category</th><th>Status</th><th>Assigned To</th><th></th></tr></thead>
+  <tbody>
+    {% for asset in object_list %}
+      <tr>
+        <td><a href="{% url 'asset1:asset-detail' asset.pk %}">{{ asset.name }}</a></td>
+        <td>{{ asset.category }}</td>
+        <td>{{ asset.get_status_display }}</td>
+        <td>{{ asset.assigned_to }}</td>
+        <td><a class="btn btn-sm btn-outline-secondary" href="{% url 'asset1:asset-edit' asset.pk %}">Edit</a></td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5">No assets found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if is_paginated %}
+  <nav aria-label="pagination">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Prev</a></li>{% endif %}
+      <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+      {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>{% endif %}
+    </ul>
+  </nav>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "asset1/base.html" %}
+{% block content %}
+<div class="row">
+  <!-- Left side menu -->
+  <div class="col-md-3">
+        <h2>Dashboard</h2>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'asset1:asset-list' %}">Assets</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'asset1:request-list' %}">Requests</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'asset1:issue-list' %}">Issues</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Right side dashboard -->
+  <div class="col-md-9">
+
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card p-3 mb-2 text-center">Total assets: {{ total_assets }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 mb-2 text-center">Available: {{ available }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 mb-2 text-center">Assigned: {{ assigned }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 mb-2 text-center">Pending requests: {{ pending_requests }}</div>
+      </div>
+    </div>
+
+    <h4 class="mt-4">Recent assignments</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Asset</th>
+          <th>From</th>
+          <th>To</th>
+          <th>At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in recent_assignments %}
+          <tr>
+            <td>{{ a.asset.name }}</td>
+            <td>{{ a.assigned_from }}</td>
+            <td>{{ a.assigned_to }}</td>
+            <td>{{ a.created_at }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="text-center">No assignments yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "asset1/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Assign Asset</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Assign</button>
+    <a href="{% url 'asset1:asset-list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

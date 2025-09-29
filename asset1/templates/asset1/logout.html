@@ -1,0 +1,12 @@
+
+{% extends "asset1/base.html" %}
+
+{% block content %}
+
+<form method="post" action="{% url 'logout' %}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-link nav-link" style="display:inline; border:none; background:none;">
+    Logout
+  </button>
+</form>
+{% endblock %}

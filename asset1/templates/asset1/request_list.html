@@ -1,0 +1,39 @@
+{% extends "asset1/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Asset Requests</h2>
+  <a href="{% url 'asset1:request-create' %}" class="btn btn-primary mb-3">+ New Request</a>
+
+  {% if object_list %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Asset</th>
+          <th>Category</th>
+          <th>Requester</th>
+          <th>Status</th>
+          <th>Reason</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in object_list %}
+        <tr>
+          <td>{{ req.id }}</td>
+          <td>{{ req.asset.name }}</td>
+          <td>{{ req.category.name }}</td>
+          <td>{{ req.requester.username }}</td>
+          <td>{{ req.status }}</td>
+          <td>{{ req.reason }}</td>
+          <td>{{ req.created_at|date:"Y-m-d H:i" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No requests found.</p>
+  {% endif %}
+</div>
+{% endblock %}

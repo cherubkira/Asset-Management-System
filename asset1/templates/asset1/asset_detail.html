@@ -1,0 +1,17 @@
+{% extends "asset1/base.html" %}
+{% block content %}
+<h2>{{ object.name }}</h2>
+<p>Category: {{ object.category }}</p>
+<p>Status: {{ object.get_status_display }}</p>
+<p>Assigned to: {{ object.assigned_to }}</p>
+<p>{{ object.description }}</p>
+
+<h4>History</h4>
+<ul>
+  {% for h in object.history.all %}
+    <li>{{ h.created_at }}: {{ h.assigned_from }} -> {{ h.assigned_to }} ({{ h.note }})</li>
+  {% empty %}
+    <li>No history</li>
+  {% endfor %}
+</ul>
+{% endblock %}

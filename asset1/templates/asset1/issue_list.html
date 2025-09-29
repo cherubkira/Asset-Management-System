@@ -1,0 +1,37 @@
+{% extends "asset1/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Reported Issues</h2>
+  <a href="{% url 'asset1:issue-create' %}" class="btn btn-primary mb-3">+ Report Issue</a>
+
+  {% if object_list %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Asset</th>
+          <th>Reporter</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for issue in object_list %}
+        <tr>
+          <td>{{ issue.id }}</td>
+          <td>{{ issue.asset.name }}</td>
+          <td>{{ issue.reporter.username }}</td>
+          <td>{{ issue.description }}</td>
+          <td>{{ issue.status }}</td>
+          <td>{{ issue.created_at|date:"Y-m-d H:i" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No issues reported.</p>
+  {% endif %}
+</div>
+{% endblock %}
