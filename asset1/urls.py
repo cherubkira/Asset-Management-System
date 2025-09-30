@@ -20,6 +20,13 @@ urlpatterns = [
     path('accounts/login/', LoginView.as_view(template_name='asset1/login.html'), name='login'),
      path("accounts/logout/",LogoutView.as_view(next_page="asset1:landing"),name="logout",
     ),
+    path('assets/', views.asset_list, name='asset_list'),
+    path('assets/history/', views.asset_history, name='asset_history'),
+    path('assets/categories/', views.asset_category, name='asset_category'),
+    path('assets/subcategories/', views.asset_subcategory, name='asset_subcategory'),
+    path('assets/status/', views.asset_status, name='asset_status'),
+    path('assets/comments/', views.asset_comment, name='asset_comment'),
+    path("assets/create/", views.asset_create, name="asset_create"),
 ]
     
 

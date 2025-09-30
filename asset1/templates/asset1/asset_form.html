@@ -1,0 +1,47 @@
+{% extends 'asset1/base.html' %}
+
+{% block content %}
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div class="bg-dark text-white p-3" style="width: 220px; min-height: 100vh;">
+        <h4 class="text-center mb-4">Asset Manager</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a href="{% url 'asset1:asset_list' %}" class="nav-link text-white">Assets</a></li>
+            <li class="nav-item"><a href="#" class="nav-link text-white">Categories</a></li>
+            <li class="nav-item"><a href="#" class="nav-link text-white">Locations</a></li>
+            <li class="nav-item"><a href="#" class="nav-link text-white">Users</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-grow-1 p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>{% if form.instance.pk %}Edit Asset{% else %}Add Asset{% endif %}</h2>
+            <a href="{% url 'asset1:asset_list' %}" class="btn btn-secondary">Back</a>
+        </div>
+
+        <div class="card shadow p-4">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    {% for field in form %}
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    {% if form.instance.pk %}Update{% else %}Save{% endif %}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

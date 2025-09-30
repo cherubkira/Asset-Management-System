@@ -7,6 +7,8 @@ from .models import Asset, AssignmentHistory, AssetRequest, IssueReport, Categor
 from .forms import AssetForm, AssetRequestForm, IssueReportForm
 from .filters import AssetFilter
 from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.contrib import messages
 
 # Landing page
 class LandingView(generic.TemplateView):
@@ -123,5 +125,31 @@ class IssueCreateView(LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
 
 
+def asset_list(request):
+    return render(request, 'asset1/asset_list.html')
 
+def asset_history(request):
+    return render(request, 'asset1/asset_history.html')
 
+def asset_category(request):
+    return render(request, 'asset1/asset_category.html')
+
+def asset_subcategory(request):
+    return render(request, 'asset1/asset_subcategory.html')
+
+def asset_status(request):
+    return render(request, 'asset1/asset_status.html')
+
+def asset_comment(request):
+    return render(request, 'asset1/asset_comment.html')
+
+def asset_create(request):
+    if request.method == "POST":
+        form = AssetForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Asset created successfully")
+            return redirect("asset1:asset_list")
+    else:
+        form = AssetForm()
+    return render(request, "asset1/asset_form.html", {"form": form})
