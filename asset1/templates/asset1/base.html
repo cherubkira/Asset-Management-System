@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
   <div class="container">
-    <a class="navbar-brand"href="{% url 'dashboard' %}">Asset Manager</a>
+    <a class="navbar-brand"href="{% url 'asset1:dashboard' %}">Asset Manager</a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto">
        
@@ -24,7 +24,7 @@
       <span class="nav-link">Hi, {{ user.get_username }}</span>
     </li>
     <li class="nav-item">
-      <form method="post" action="{% url 'logout' %}" style="display:inline;">
+      <form method="post" action="{% url 'asset1:logout' %}" style="display:inline;">
         {% csrf_token %}
         <button type="submit" class="btn btn-link nav-link" style="padding:0; border:none; background:none;">
           Logout
@@ -33,7 +33,7 @@
     </li>
   {% else %}
     <li class="nav-item">
-      <a class="nav-link" href="{% url 'login' %}">Login</a>
+      <a class="nav-link" href="{% url 'asset1:login' %}">Login</a>
     </li>
   {% endif %}
 </ul>

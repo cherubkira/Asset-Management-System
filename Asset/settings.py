@@ -127,3 +127,4 @@ LOGIN_REDIRECT_URL = "asset1:dashboard"
 LOGOUT_REDIRECT_URL = 'asset1:landing'
 
 LOGIN_URL = "login"
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
