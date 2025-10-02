@@ -12,7 +12,7 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
-    list_display = ["name", "category", "status", "assigned_to", "location", "serial_number"]
+    list_display = ["id","name", "category", "status", "assigned_to", "location", "serial_number"]
     search_fields = ["name", "serial_number"]
     list_filter = ["status", "category", "location"]
     readonly_fields = ["created_at", "updated_at"]
@@ -25,17 +25,17 @@ class AssetAdmin(admin.ModelAdmin):
 
 @admin.register(AssignmentHistory)
 class AssignmentHistoryAdmin(admin.ModelAdmin):
-    list_display = ["asset", "assigned_from", "assigned_to", "created_at"]
+    list_display = ["id","asset", "assigned_from", "assigned_to", "created_at"]
     readonly_fields = ["created_at"]
 
 @admin.register(AssetRequest)
 class AssetRequestAdmin(admin.ModelAdmin):
-    list_display = ["requester","category","asset","status","created_at"]
+    list_display = ["id","requester","category","asset","status","requested_at","receive_at"]
     list_filter = ["status","category"]
 
 @admin.register(IssueReport)
 class IssueReportAdmin(admin.ModelAdmin):
-    list_display = ["asset","reporter","issue_type","resolved","created_at"]
+    list_display = ["id","asset","reporter","issue_type","resolved","created_at"]
     list_filter = ["issue_type","resolved"]
 
 

@@ -1,11 +1,11 @@
+
 {% extends "asset1/sidebar.html" %}
 
 {% block page_content %}
 <div class="container mt-4">
-  <h2>Asset Requests</h2>
-  
+  <h2>Asset History</h2>
 
- {% if object_list %}
+ {% if history %}
     <table class="table table-striped">
       <thead>
         <tr>
@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for req in object_list %}
+        {% for req in history %}
         <tr>
           <td>{{ req.asset }}</td>
           <td>{{ req.category }}</td>
@@ -36,7 +36,9 @@
       </tbody>
     </table>
   {% else %}
-    <p>No requests found.</p>
+    <p>No History found.</p>
   {% endif %}
 </div>
-{% endblock %}
+
+
+{% endblock %}   

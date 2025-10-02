@@ -1,72 +1,13 @@
-{% extends "asset1/base.html" %}
+{% extends "asset1/sidebar.html" %}
 {% load static %}
-{% block content %}
+{% block page_content %}
 
-<div class="d-flex" style="margin-left:-115px; padding:0;">
+<div class="d-flex"  style="margin:0; padding:0;">
 
-  <!-- Sidebar -->
-  <nav id="sidebar" class="bg-dark text-white" style="width:220px; min-height:100vh; padding:10px 0;">
-    <h5 class="text-center mb-4">System Admin</h5>
-    <ul class="nav flex-column">
 
-      <li class="nav-item">
-        <a class="nav-link text-white" href="{% url 'asset1:asset_list' %}">
-          <i class="bi bi-box"></i> Asset
-        </a>
-      </li>
+  <main style="flex:1; margin-left:10px; padding:0;">
 
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#"><i class="bi bi-people"></i> User Management</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#"><i class="bi bi-clock-history"></i> Asset History</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#"><i class="bi bi-tags"></i> Asset Category</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#"><i class="bi bi-diagram-2"></i> Asset Sub Category</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#"><i class="bi bi-check2-circle"></i> Asset Status</a>
-      </li>
-      <li class="nav-item">
-     <li class="nav-item">
-      <a href="" class="nav-link text-white" data-bs-toggle="collapse" data-bs-target="#employeeMenu" aria-expanded="false" aria-controls="employeeMenu">
-        <i class="bi bi-person-badge"></i> Manage Employee 
-        <i class="bi bi-caret-down ms-auto"></i>
-      </a>
-      <div class="collapse ps-3" id="employeeMenu">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a href="#" class="nav-link text-white"><i class="bi bi-diagram-2"></i> Department</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link text-white"><i class="bi bi-diagram-3"></i> Sub Department</a>
-          </li>
-        </ul>
-      </div>
-    </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#"><i class="bi bi-envelope"></i> Request Module</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#"><i class="bi bi-gear"></i> Settings</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#"><i class="bi bi-person-lines-fill"></i> Manage User Role</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#"><i class="bi bi-graph-up"></i> Report</a>
-      </li>
-
-    </ul>
-  </nav>
-
-  <main style="flex:1; margin:0; padding:0;">
-
-    <!-- Dashboard Cards -->
-    <div style="display:flex; flex-wrap:wrap; margin:0;">
+    <div style="display:flex; flex-wrap:wrap; margin:10px;">
       <!-- Total Assets -->
       <div style="flex:0 0 25%; padding:2px;">
         <div class="card shadow-sm border-0">
@@ -109,32 +50,37 @@
       </div>
     </div>
 
+
+
     <!-- Recent Assignments -->
-    <h4 class="mt-2" style="margin-left:5px;">Recent Assignments</h4>
-    <div style="overflow-x:auto; margin:5px;">
-      <table class="table table-striped table-hover" style="margin:0;">
-        <thead class="table-dark">
-          <tr>
-            <th>Asset</th>
-            <th>From</th>
-            <th>To</th>
-            <th>At</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for a in recent_assignments %}
-            <tr>
-              <td>{{ a.asset.name }}</td>
-              <td>{{ a.assigned_from }}</td>
-              <td>{{ a.assigned_to }}</td>
-              <td>{{ a.created_at }}</td>
-            </tr>
-          {% empty %}
-            <tr><td colspan="4" class="text-center">No assignments yet.</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+<h4 class="mt-2" style="margin-left:5px;">Recent Assignments</h4>
+<div style="overflow-x:auto; margin:5px;">
+  <table class="table table-striped table-hover" style="margin:0;">
+    <thead class="table-dark">
+      <tr>
+        
+        <th>Asset</th>
+        <th>From</th>
+        <th>To</th>
+        <th>At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in recent_assignments %}
+        <tr>
+          <td>{{a.asset.id}}</td>
+          <td>{{ a.asset.name }}</td>
+          <td>{{ a.assigned_from }}</td>
+          <td>{{ a.assigned_to }}</td>
+          <td>{{ a.created_at }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4" class="text-center">No assignments yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 
   </main>
 

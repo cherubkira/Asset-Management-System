@@ -8,7 +8,7 @@ class Category(models.Model):
     description = models.TextField(blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
 class Location(models.Model):
     name = models.CharField(max_length=120)
@@ -20,14 +20,14 @@ class Location(models.Model):
 class Asset(models.Model):
     STATUS_AVAILABLE = "available"
     STATUS_ASSIGNED = "assigned"
-    STATUS_MAINT = "maintenance"
+    STATUS_MAINTENANCE = "maintenance"
     STATUS_LOST = "lost"
     STATUS_RETIRED = "retired"
 
     STATUS_CHOICES = [
         (STATUS_AVAILABLE, "Available"),
         (STATUS_ASSIGNED, "Assigned"),
-        (STATUS_MAINT, "Maintenance"),
+        (STATUS_MAINTENANCE, "Maintenance"),
         (STATUS_LOST, "Lost"),
         (STATUS_RETIRED, "Retired"),
     ]
@@ -62,9 +62,10 @@ class Asset(models.Model):
         AssignmentHistory.objects.create(asset=self, assigned_from=old, assigned_to=None, note=note)
 
     def __str__(self):
-        return f"{self.name} ({self.serial_number or 'no-serial'})"
+        return f"{self.id}"
 
 class AssignmentHistory(models.Model):
+
     asset = models.ForeignKey(Asset, on_delete=models.CASCADE, related_name="history")
     assigned_from = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True,
                                       on_delete=models.SET_NULL, related_name="+")
@@ -76,6 +77,8 @@ class AssignmentHistory(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
+    def __str__(self):
+        return f"{self.name}"
 class AssetRequest(models.Model):
     STATUS_PENDING = "pending"
     STATUS_APPROVED = "approved"
@@ -94,19 +97,20 @@ class AssetRequest(models.Model):
     asset = models.ForeignKey(Asset, on_delete=models.SET_NULL, null=True, blank=True)
     reason = models.TextField()
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, default=STATUS_PENDING)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    requested_at = models.DateTimeField(auto_now_add=True)
+    receive_at = models.DateTimeField(auto_now=True)
 
+   
 class IssueReport(models.Model):
     TYPE_DAMAGE = "damage"
     TYPE_LOST = "lost"
-    TYPE_MAINT = "maintenance"
+    TYPE_MAINTENANCE = "maintenance"
     TYPE_OTHER = "other"
 
     TYPE_CHOICES = [
         (TYPE_DAMAGE, "Damage"),
         (TYPE_LOST, "Lost"),
-        (TYPE_MAINT, "Maintenance"),
+        (TYPE_MAINTENANCE, "Maintenance"),
         (TYPE_OTHER, "Other"),
     ]
 
@@ -123,4 +127,16 @@ class IssueReport(models.Model):
         self.resolved_at = timezone.now()
         self.save()
 
+class EmployeeList(models.Model):
+    img = models.ImageField(upload_to='employee_images/', blank=True, null=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(unique=True)
+    department = models.CharField(max_length=100, blank=True)
+    position = models.CharField(max_length=100, blank=True)
+
+
+    def __str__(self):
+        return f"{self.id}"
 
