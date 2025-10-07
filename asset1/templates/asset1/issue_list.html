@@ -1,37 +1,48 @@
 {% extends "asset1/sidebar.html" %}
 
 {% block page_content %}
-<div class="container mt-4">
-  <h2>Reported Issues</h2>
+<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-6">Reported Issues</h2>
 
-
-  {% if object_list %}
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Asset</th>
-          <th>Reporter</th>
-          <th>Description</th>
-          <th>Status</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for issue in object_list %}
-        <tr>
-          <td>{{ issue.id }}</td>
-          <td>{{ issue.asset.name }}</td>
-          <td>{{ issue.reporter.username }}</td>
-          <td>{{ issue.description }}</td>
-          <td>{{ issue.status }}</td>
-          <td>{{ issue.created_at|date:"Y-m-d H:i" }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>No issues reported.</p>
-  {% endif %}
+    {% if object_list %}
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 rounded-lg shadow-sm">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-600 uppercase">ID</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Asset</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Reporter</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Description</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-600 uppercase">Status</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-600 uppercase">Date</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for issue in object_list %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3 text-center text-sm">{{ issue.id }}</td>
+                    <td class="px-6 py-3 text-sm">{{ issue.asset.name }}</td>
+                    <td class="px-6 py-3 text-sm">{{ issue.reporter.username }}</td>
+                    <td class="px-6 py-3 text-sm">{{ issue.description }}</td>
+                    <td class="px-6 py-3 text-center text-sm">
+                        {% if issue.status == 'pending' %}
+                            <span class="px-2 py-1 bg-yellow-200 text-yellow-800 rounded-full text-xs font-semibold">Pending</span>
+                        {% elif issue.status == 'resolved' %}
+                            <span class="px-2 py-1 bg-green-200 text-green-800 rounded-full text-xs font-semibold">Resolved</span>
+                        {% elif issue.status == 'rejected' %}
+                            <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-xs font-semibold">Rejected</span>
+                        {% else %}
+                            <span class="px-2 py-1 bg-gray-200 text-gray-800 rounded-full text-xs font-semibold">{{ issue.status|capfirst }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-3 text-center text-sm">{{ issue.created_at|date:"Y-m-d H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-gray-500 text-center mt-4">No issues reported.</p>
+    {% endif %}
 </div>
 {% endblock %}

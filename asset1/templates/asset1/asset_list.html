@@ -1,39 +1,73 @@
 {% extends "asset1/sidebar.html" %}
 
 {% block page_content %}
-<h2>Assets</h2>
-<form method="get" class="row g-2 mb-3">
-  <div class="col-auto"><input class="form-control" name="q" placeholder="search" value="{{ request.GET.q }}"></div>
-  <div class="col-auto"><button class="btn btn-secondary">Filter</button></div>
-  <div class="col-auto"><a class="btn btn-primary" href="{% url 'asset1:asset-create' %}">Add asset</a></div>
-</form>
+<div class="p-6">
+  <h2 class="text-2xl font-bold mb-4">Assets</h2>
 
-<table class="table">
-  <thead><tr><th>Id</th><th>Name</th><th>Category</th><th>Status</th><th>Assigned To</th><th></th></tr></thead>
-  <tbody>
-    {% for asset in object_list %}
+  <!-- Search & Add -->
+  <form method="get" class="flex flex-wrap items-center gap-2 mb-4">
+    <input 
+      type="text" 
+      name="q" 
+      placeholder="Search" 
+      value="{{ request.GET.q }}" 
+      class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+    <button class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">Filter</button>
+    <a href="{% url 'asset1:asset-create' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">Add Asset</a>
+  </form>
 
-      <tr>
-        <td><a href="{% url 'asset1:asset-detail' %}">{{asset.id}}</a></td>
-        <td>{{ asset.name }}</td>
-        <td>{{ asset.category }}</td>
-        <td>{{ asset.get_status_display }}</td>
-        <td>{{ asset.assigned_to }}</td>
-        <td><a class="btn btn-sm btn-outline-secondary" href="">Edit</a></td>
-      </tr>
-    {% empty %}
-      <tr><td colspan="5">No assets found.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+  <!-- Asset Table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Name</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Category</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Assigned To</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        {% for asset in object_list %}
+        <tr>
+          <td class="px-4 py-2"><a href="{% url 'asset1:asset-detail'  %}" class="text-blue-600 hover:underline">{{ asset.id }}</a></td>
+          <td class="px-4 py-2">{{ asset.name }}</td>
+          <td class="px-4 py-2">{{ asset.category }}</td>
+          <td class="px-4 py-2">{{ asset.get_status_display }}</td>
+          <td class="px-4 py-2">{{ asset.assigned_to }}</td>
+          <td class="px-4 py-2">
+            <a href="" class="text-sm text-gray-700 border border-gray-300 px-2 py-1 rounded hover:bg-gray-100 transition-colors">Edit</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td class="px-4 py-2 text-center" colspan="6">No assets found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-{% if is_paginated %}
-  <nav aria-label="pagination">
-    <ul class="pagination">
-      {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Prev</a></li>{% endif %}
-      <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
-      {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>{% endif %}
-    </ul>
-  </nav>
-{% endif %}
+  <!-- Pagination -->
+  {% if is_paginated %}
+  <div class="mt-4 flex items-center justify-between">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Prev</a>
+    {% else %}
+      <span class="px-3 py-1 bg-gray-100 rounded text-gray-400">Prev</span>
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next</a>
+    {% else %}
+      <span class="px-3 py-1 bg-gray-100 rounded text-gray-400">Next</span>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
 {% endblock %}

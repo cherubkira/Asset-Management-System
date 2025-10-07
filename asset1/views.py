@@ -72,7 +72,7 @@ def asset_history(request):
 @login_required
 def asset_detail(request):
     
-    return render(request, 'asset1/asset-detail.html')
+    return render(request, 'asset1/asset_detail.html')
 
 
 @login_required
