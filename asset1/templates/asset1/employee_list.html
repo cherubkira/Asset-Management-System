@@ -1,24 +1,58 @@
+<!-- asset1/templates/asset1/employee_list.html -->
 {% extends "asset1/sidebar.html" %}
+{% load static %}
+
+{% block title %}Employees{% endblock %}
 
 {% block page_content %}
+<div class="container mx-auto mt-10">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Employee List</h2>
+    <!-- Add Employee Button -->
+    <a href="{% url 'asset1:employee_create' %}" 
+       class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition-colors duration-200">
+       + Add Employee
+    </a>
+  </div>
 
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 border-b">ID</th>
+          <th class="px-4 py-2 border-b">Image</th>
+          <th class="px-4 py-2 border-b">Name</th>
+          <th class="px-4 py-2 border-b">Phone</th>
+          <th class="px-4 py-2 border-b">Email</th>
+          <th class="px-4 py-2 border-b">Department</th>
+          <th class="px-4 py-2 border-b">Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for employee in employees %}
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b">{{ employee.id }}</td>
+          <td class="px-4 py-2 border-b">
+            {% if employee.img %}
+              <img src="{{ employee.img.url }}" alt="Profile" class="w-12 h-12 rounded-full object-cover">
+            {% else %}
+              <span class="text-gray-400">No Image</span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-2 border-b">{{ employee.first_name }} {{ employee.last_name }}</td>
+          <td class="px-4 py-2 border-b">{{ employee.phone_number }}</td>
+          <td class="px-4 py-2 border-b">{{ employee.email }}</td>
+          <td class="px-4 py-2 border-b">{{ employee.department }}</td>
+          <td class="px-4 py-2 border-b">{{ employee.position }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center px-4 py-6 text-gray-500">No employees found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<table class="table">
-  <thead><tr><th>Id</th><th>Name</th><th>Category</th><th>Status</th><th>Assigned To</th><th></th></tr></thead>
-  <tbody>
-    {% for asset in object_list %}
-
-      <tr>
-        <td><a href="{% url 'asset1:asset-detail' %}">{{asset.id}}</a></td>
-        <td>{{ asset.name }}</td>
-        <td>{{ asset.category }}</td>
-        <td>{{ asset.get_status_display }}</td>
-        <td>{{ asset.assigned_to }}</td>
-        <td><a class="btn btn-sm btn-outline-secondary" href="">Edit</a></td>
-      </tr>
-    {% empty %}
-      <tr><td colspan="5">No assets found.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
 {% endblock %}

@@ -1,0 +1,36 @@
+{% extends "asset1/sidebar.html" %}
+
+{% block page_content %}
+<div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Subcategories</h2>
+    <a href="{% url 'asset1:subcategory_create' %}" 
+       class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+      Add Subcategory
+    </a>
+  </div>
+
+  <table class="min-w-full border border-gray-200 rounded-md">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="px-4 py-2 border">Category</th>
+        <th class="px-4 py-2 border">Subcategory</th>
+        <th class="px-4 py-2 border">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sub in subcategories %}
+      <tr class="hover:bg-gray-50">
+        <td class="px-4 py-2 border">{{ sub.category.name }}</td>
+        <td class="px-4 py-2 border">{{ sub.name }}</td>
+        <td class="px-4 py-2 border">{{ sub.description }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3" class="px-4 py-2 border text-center">No subcategories found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

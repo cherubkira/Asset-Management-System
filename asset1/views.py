@@ -3,6 +3,11 @@ from django.contrib.auth.decorators import login_required
 from .models import Asset, AssignmentHistory, AssetRequest, IssueReport
 from .forms import AssetForm
 from django.core.paginator import Paginator
+from .models import EmployeeList,Category,SubCategory,IssueReport
+from .forms import EmployeeForm, CategoryForm, SubCategoryForm
+from django.contrib import messages
+
+
 
 
 
@@ -69,20 +74,12 @@ def asset_detail(request):
     
     return render(request, 'asset1/asset-detail.html')
 
-@login_required
-def asset_subcategory(request):
-    
-    return render(request, 'asset1/asset_subcategory.html')
-
-@login_required
-def asset_status(request):
-    
-    return render(request, 'asset1/asset_status.html')
 
 @login_required
 def asset_comment(request):
     
     return render(request, 'asset1/asset_comment.html')
+
 
 @login_required
 def asset_create(request):
@@ -101,5 +98,71 @@ def asset_request(request):
     return render(request, 'asset1/request_list.html',{"object_list": object_list})
 
 @login_required
+def employee_create(request):
+    if request.method == 'POST':
+        form = EmployeeForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('asset1:employee_create')
+    else:
+        form = EmployeeForm()
+    return render(request, 'asset1/employee_list_form.html', {'form': form})
+
 def employee_list(request):
-    return render(request, 'asset1/employee_list.html')
+    employees = EmployeeList.objects.all()
+    return render(request, 'asset1/employee_list.html', {'employees': employees})
+
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'asset1/asset_category.html', {'categories': categories})
+
+def category_create(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('asset1:category_list')
+    else:
+        form = CategoryForm()
+    return render(request, 'asset1/asset_category_create.html', {'form': form})
+
+
+def subcategory_create(request):
+    if request.method == "POST":
+        form = SubCategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("asset1:subcategory_list")
+    else:
+        form = SubCategoryForm()
+    return render(request, "asset1/asset_subc_list.html", {"form": form})
+
+def subcategory_list(request):
+    subcategories = SubCategory.objects.all()
+    return render(request, "asset1/asset_subca.html", {"subcategories": subcategories})
+
+@login_required
+def asset_status(request):
+    assets = Asset.objects.all().order_by('id')
+    return render(request, 'asset1/asset_status.html', {'assets': assets})
+
+@login_required
+def asset_delete(request, pk):
+    asset = get_object_or_404(Asset, pk=pk)
+
+    if request.method == "POST":
+        asset.delete()
+        messages.success(request, "Asset deleted successfully.")
+        return redirect("asset1:asset_status")  
+
+    
+    return redirect("asset1:asset_status")
+
+@login_required
+def asset_request_list(request):
+    requests = AssetRequest.objects.select_related('asset', 'requester', 'category').all().order_by('-requested_at')
+    return render(request, 'asset1/request_list.html', {'requests': requests})
+
+def asset_issue_list(request):
+    issues = IssueReport.objects.select_related("asset", "raised_by").all().order_by('-created_at')
+    return render(request, "asset1/issue_list.html", {"issues": issues,})

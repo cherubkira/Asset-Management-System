@@ -31,24 +31,34 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# your_project/settings.py
+
 INSTALLED_APPS = [
+    
     'asset1',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+   
+
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
     'django.middleware.common.CommonMiddleware',
+ 
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'Asset.urls'
@@ -126,5 +136,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "asset1:dashboard"
 LOGOUT_REDIRECT_URL = 'asset1:landing'
 
+
+
 LOGIN_URL = "login"
+
+TAILWIND_APP_NAME = 'asset'
+
+
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

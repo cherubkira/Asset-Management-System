@@ -1,0 +1,32 @@
+{% extends "asset1/sidebar.html" %}
+{% load widget_tweaks %}
+{% block title %}Add Category{% endblock %}
+
+{% block page_content %}
+<div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold text-center mb-6">Add Category</h2>
+
+  <form method="POST" class="space-y-4">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Name</label>
+      {{ form.name|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm" }}
+      {{ form.name.errors }}
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Description</label>
+      {{ form.description|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm" }}
+      {{ form.description.errors }}
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+        Save Category
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

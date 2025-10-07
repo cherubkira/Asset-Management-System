@@ -1,0 +1,77 @@
+{% extends "asset1/sidebar.html" %}
+{% load widget_tweaks %}
+{% block title %}Add Employee{% endblock %}
+
+{% block page_content %}
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+  <h2 class="text-3xl font-bold text-center mb-6">Add Employee</h2>
+
+  <form method="post" enctype="multipart/form-data" class="space-y-5">
+    {% csrf_token %}
+
+    <!-- Image Upload with Preview -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">Profile Image</label>
+      {{ form.img|add_class:"w-full border rounded-md p-2" }}
+      <img id="imgPreview" class="mt-2 w-24 h-24 rounded-full object-cover hidden" />
+    </div>
+
+    <!-- First Name -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">First Name</label>
+      {{ form.first_name|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+    </div>
+
+    <!-- Last Name -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Last Name</label>
+      {{ form.last_name|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+    </div>
+
+    <!-- Phone -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Phone Number</label>
+      {{ form.phone_number|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Email</label>
+      {{ form.email|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+    </div>
+
+    <!-- Department -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Department</label>
+      {{ form.department|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+    </div>
+
+    <!-- Position -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Position</label>
+      {{ form.position|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+    </div>
+
+    <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md shadow-md transition-colors duration-200">
+      Save Employee
+    </button>
+  </form>
+</div>
+
+<!-- JS for Image Preview -->
+<script>
+  const imgInput = document.querySelector('input[name="img"]');
+  const imgPreview = document.getElementById('imgPreview');
+
+  imgInput.addEventListener('change', () => {
+    const file = imgInput.files[0];
+    if (file) {
+      imgPreview.src = URL.createObjectURL(file);
+      imgPreview.classList.remove('hidden');
+    } else {
+      imgPreview.src = '';
+      imgPreview.classList.add('hidden');
+    }
+  });
+</script>
+{% endblock %}
