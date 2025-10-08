@@ -1,7 +1,7 @@
 {% extends "asset1/base.html" %}
 
 {% block navbar %}
-<nav class="bg-blue-700 text-white shadow mb-4">
+<nav class="bg-blue-700 text-white shadow ml-72">
   <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
     <h3 class="text-lg font-semibold">System Admin</h3>
     <div class="flex items-center space-x-4">
@@ -21,7 +21,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="flex min-h-screen">
+
+<div class="flex min-h-screen  ">
 
   <!-- Sidebar -->
   <aside class="w-60 bg-gray-900 text-gray-200 p-4 space-y-2">
@@ -33,19 +34,8 @@
     <a href="{% url 'asset1:subcategory_list' %}" class="block px-3 py-2 rounded hover:bg-gray-800">🧩 Asset Sub Category</a>
     <a href="{% url 'asset1:asset_status' %}" class="block px-3 py-2 rounded hover:bg-gray-800">✅ Asset Status</a>
 
-    <!-- Dropdown: Manage Employee -->
-    <details class="group">
-      <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-800 flex justify-between items-center">
-        <span>👔 Manage Employee</span>
-        <span class="group-open:rotate-180 transition-transform">▼</span>
-      </summary>
-      <div class="pl-5 mt-1 space-y-1">
-        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-800">🏛️ Department</a>
-        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-800">🏢 Sub Department</a>
-      </div>
-    </details>
 
-    <!-- Dropdown: Request Module -->
+    <!--Request Module -->
     <details class="group">
       <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-800 flex justify-between items-center">
         <span>📨 Request Module</span>
@@ -56,20 +46,8 @@
         <a href="{% url 'asset1:asset_issue_list' %}" class="block px-2 py-1 rounded hover:bg-gray-800">Asset Issue</a>
       </div>
     </details>
-
-    <!-- Dropdown: Manage User Role -->
-    <details class="group">
-      <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-800 flex justify-between items-center">
-        <span>⚙️ Manage User Role</span>
-        <span class="group-open:rotate-180 transition-transform">▼</span>
-      </summary>
-      <div class="pl-5 mt-1 space-y-1">
-        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-800">Manage User Roles</a>
-        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-800">System Role</a>
-      </div>
-    </details>
-
-    <!-- Dropdown: Report -->
+    
+    <!-- Report -->
     <details class="group">
       <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-800 flex justify-between items-center">
         <span>📊 Report</span>

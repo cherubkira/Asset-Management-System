@@ -75,7 +75,7 @@ class Asset(models.Model):
         AssignmentHistory.objects.create(asset=self, assigned_from=old, assigned_to=None, note=note)
 
     def __str__(self):
-        return f"{self.id}"
+        return f"{self.name}"
 
 class AssignmentHistory(models.Model):
 
@@ -91,7 +91,7 @@ class AssignmentHistory(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.asset.name} → {self.assigned_to}"
 class AssetRequest(models.Model):
     STATUS_PENDING = "pending"
     STATUS_APPROVED = "approved"

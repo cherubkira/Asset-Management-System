@@ -164,5 +164,5 @@ def asset_request_list(request):
     return render(request, 'asset1/request_list.html', {'requests': requests})
 
 def asset_issue_list(request):
-    issues = IssueReport.objects.select_related("asset", "raised_by").all().order_by('-created_at')
+    issues = IssueReport.objects.select_related("asset", "reporter").all().order_by('-created_at')
     return render(request, "asset1/issue_list.html", {"issues": issues,})

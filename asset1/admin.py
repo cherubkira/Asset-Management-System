@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Location, Asset, AssignmentHistory, AssetRequest, IssueReport
+from .models import Category, Location, Asset, AssignmentHistory, AssetRequest, IssueReport,SubCategory
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -38,5 +38,4 @@ class IssueReportAdmin(admin.ModelAdmin):
     list_display = ["id","asset","reporter","issue_type","resolved","created_at"]
     list_filter = ["issue_type","resolved"]
 
-
-# Register your models here.
+admin.site.register(SubCategory)
