@@ -4,9 +4,9 @@ from .models import Asset, AssignmentHistory, AssetRequest, IssueReport
 from .forms import AssetForm
 from django.core.paginator import Paginator
 from .models import EmployeeList,Category,SubCategory,IssueReport
-from .forms import EmployeeForm, CategoryForm, SubCategoryForm
+from .forms import EmployeeForm, CategoryForm, SubCategoryForm, AssetRequestForm
 from django.contrib import messages
-
+from django.db.models import Q
 
 
 
@@ -44,12 +44,15 @@ def dashboard(request):
 @login_required
 def asset_list(request):
     
-    assets = Asset.objects.select_related("assigned_to", "category").all()
-    find_asset = request.GET.get("find_asset")
     
-    if find_asset:
-        assets = assets.filter(name__icontains= find_asset)
+    find_asset = request.GET.get("find_asset","") 
 
+    assets = Asset.objects.select_related("assigned_to", "category").filter(
+        Q(name__icontains=find_asset) 
+        | Q(category__name__icontains=find_asset)
+        | Q(status__icontains=find_asset)
+        | Q(id__icontains=find_asset
+    ))
     
     paginator = Paginator(assets, 10)
     page_number = request.GET.get("page")
@@ -94,8 +97,14 @@ def asset_create(request):
 
 @login_required
 def asset_request(request):
-    object_list = AssetRequest.objects.select_related("requester","category", "asset").all()
-    return render(request, 'asset1/request_list.html',{"object_list": object_list})
+    if request.method == 'POST':
+        form = AssetRequestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('asset1:request_form')
+    else:
+        object_list = AssetRequestForm()
+    return render(request, 'asset1/request_form.html',{"object_list": object_list})
 
 @login_required
 def employee_create(request):
@@ -158,10 +167,11 @@ def asset_delete(request, pk):
     
     return redirect("asset1:asset_status")
 
-@login_required
+
 def asset_request_list(request):
     requests = AssetRequest.objects.select_related('asset', 'requester', 'category').all().order_by('-requested_at')
     return render(request, 'asset1/request_list.html', {'requests': requests})
+
 
 def asset_issue_list(request):
     issues = IssueReport.objects.select_related("asset", "reporter").all().order_by('-created_at')
