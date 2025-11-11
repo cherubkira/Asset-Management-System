@@ -1,8 +1,12 @@
 {% extends "asset1/sidebar.html" %}
 {% load widget_tweaks %}
-{% block title %}Add Employee{% endblock %}
+
+{% block title %}
+Add Employee
+{% endblock %}
 
 {% block page_content %}
+
 <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
   <h2 class="text-3xl font-bold text-center mb-6">Add Employee</h2>
 
@@ -13,7 +17,10 @@
     <div>
       <label class="block text-gray-700 font-medium mb-2">Profile Image</label>
       {{ form.img|add_class:"w-full border rounded-md p-2" }}
-      <img id="imgPreview" class="mt-2 w-24 h-24 rounded-full object-cover hidden" />
+      <img
+        id="imgPreview"
+        class="mt-2 w-24 h-24 rounded-full object-cover hidden"
+      />
     </div>
 
     <!-- First Name -->
@@ -52,26 +59,29 @@
       {{ form.position|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
     </div>
 
-    <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md shadow-md transition-colors duration-200">
+    <button
+      type="submit"
+      class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md shadow-md transition-colors duration-200"
+    >
       Save Employee
     </button>
   </form>
 </div>
 
-<!-- JS for Image Preview -->
 <script>
   const imgInput = document.querySelector('input[name="img"]');
-  const imgPreview = document.getElementById('imgPreview');
+  const imgPreview = document.getElementById("imgPreview");
 
-  imgInput.addEventListener('change', () => {
+  imgInput.addEventListener("change", () => {
     const file = imgInput.files[0];
     if (file) {
       imgPreview.src = URL.createObjectURL(file);
-      imgPreview.classList.remove('hidden');
+      imgPreview.classList.remove("hidden");
     } else {
-      imgPreview.src = '';
-      imgPreview.classList.add('hidden');
+      imgPreview.src = "";
+      imgPreview.classList.add("hidden");
     }
   });
 </script>
+
 {% endblock %}
