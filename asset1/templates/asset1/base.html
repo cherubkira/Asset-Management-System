@@ -1,41 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <title>{% block title %}Asset Manager{% endblock %}</title>
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}Asset Manager{% endblock %}</title>
 
-  {% load static %}
-  <!-- Tailwind CSS -->
-  <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
-</head>
-<body class="bg-gray-50 text-gray-900 min-h-screen">
-
-  {% block navbar %}
-  <!-- Navbar -->
-  <nav class="bg-blue-700 text-white shadow mb-4">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <a href="{%url 'asset1:landing'%}" class="text-lg font-semibold">Asset Management System</a>
-      <div class="flex items-center space-x-4">
-        {% if user.is_authenticated %}
-          <span>Hi, {{ user.get_username }}</span>
+    {% load static %}
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}" />
+  </head>
+  <body class="bg-gray-50 text-gray-900 min-h-screen">
+    {% block navbar %}
+    <!-- Navbar -->
+    <nav class="bg-blue-700 text-white shadow mb-4">
+      <div
+        class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center"
+      >
+        <a href="{%url 'asset1:landing'%}" class="text-lg font-semibold"
+          >Asset Management System</a
+        >
+        <div class="flex items-center space-x-4">
+          {% if user.is_authenticated %}
+          <span>Hello, {{ user.get_username }}</span>
           <form method="post" action="{% url 'asset1:logout' %}">
             {% csrf_token %}
-            <button 
+            <button
               type="submit"
               class="px-3 py-1 border border-white rounded hover:bg-white hover:text-blue-700 transition"
             >
               Logout
             </button>
           </form>
-        {% else %}
+          {% else %}
           <a href="{% url 'asset1:login' %}" class="hover:underline">Login</a>
-        {% endif %}
+          {% endif %}
+        </div>
       </div>
-    </div>
-  </nav>
-  {% endblock %}
-
-  {% block content %}{% endblock %}
-
-</body>
+    </nav>
+    {% endblock %} {% block content %}{% endblock %}
+  </body>
 </html>

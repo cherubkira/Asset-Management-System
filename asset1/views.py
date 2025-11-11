@@ -77,13 +77,6 @@ def asset_detail(request):
     
     return render(request, 'asset1/asset_detail.html')
 
-
-@login_required
-def asset_comment(request):
-    
-    return render(request, 'asset1/asset_comment.html')
-
-
 @login_required
 def asset_create(request):
     if request.method == 'POST':
@@ -95,16 +88,6 @@ def asset_create(request):
         form = AssetForm()
     return render(request, 'asset1/asset_form.html', {'form': form})
 
-@login_required
-def asset_request(request):
-    if request.method == 'POST':
-        form = AssetRequestForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('asset1:request_form')
-    else:
-        object_list = AssetRequestForm()
-    return render(request, 'asset1/request_form.html',{"object_list": object_list})
 
 @login_required
 def employee_create(request):
@@ -169,6 +152,7 @@ def asset_delete(request, pk):
 
 
 def asset_request_list(request):
+    
     requests = AssetRequest.objects.select_related('asset', 'requester', 'category').all().order_by('-requested_at')
     return render(request, 'asset1/request_list.html', {'requests': requests})
 
@@ -176,3 +160,14 @@ def asset_request_list(request):
 def asset_issue_list(request):
     issues = IssueReport.objects.select_related("asset", "reporter").all().order_by('-created_at')
     return render(request, "asset1/issue_list.html", {"issues": issues,})
+
+def asset_update(request, pk):
+    asset = get_object_or_404(Asset, pk=pk)
+    if request.method == "POST":
+        form = AssetForm(request.POST, instance=asset)
+        if form.is_valid():
+            form.save()
+            return redirect("asset1:asset-list")
+    else:
+        form = AssetForm(instance=asset)
+    return render(request, "asset1/asset_form.html", {"form": form})

@@ -1,11 +1,7 @@
-{% extends "asset1/sidebar.html" %}
-{% load static %}
-
-{% block page_content %}
+{% extends "asset1/sidebar.html" %} {% load static %} {% block page_content %}
 
 <!-- Dashboard Cards -->
 <div class="flex flex-wrap -mx-2 mt-2">
-
   <!-- Total Assets -->
   <div class="w-1/4 px-2 mb-4">
     <div class="bg-blue-600 text-white rounded shadow p-4 text-center">
@@ -43,74 +39,148 @@
   </div>
 </div>
 
-<!-- Recent Assignments Table -->
-<h4 class="mt-6 mb-2 text-lg font-semibold">Recent Assignments</h4>
-<div class="overflow-x-auto">
-  <table class="min-w-full bg-white border rounded shadow">
-    <thead class="bg-gray-800 text-white">
-      <tr>
-        <th class="py-2 px-3 text-left">Asset ID</th>
-        <th class="py-2 px-3 text-left">Asset Name</th>
-        <th class="py-2 px-3 text-left">From</th>
-        <th class="py-2 px-3 text-left">To</th>
-        <th class="py-2 px-3 text-left">At</th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-200">
-      {% for a in recent_assignments %}
-      <tr class="hover:bg-gray-100">
-        <td class="py-2 px-3">{{ a.asset.id }}</td>
-        <td class="py-2 px-3">{{ a.asset.name }}</td>
-        <td class="py-2 px-3">{{ a.assigned_from }}</td>
-        <td class="py-2 px-3">{{ a.assigned_to }}</td>
-        <td class="py-2 px-3">{{ a.created_at }}</td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="5" class="py-2 px-3 text-center text-gray-500">No assignments yet.</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<!-- Recent Assignments Section -->
+<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Recent Assignments</h2>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table
+      class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md"
+    >
+      <thead class="bg-gray-100">
+        <tr>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            Asset ID
+          </th>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            Asset Name
+          </th>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            From
+          </th>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            To
+          </th>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            Assigned At
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        {% for a in recent_assignments %}
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-gray-100 text-center">
+            {{ a.asset.id }}
+          </td>
+          <td class="px-4 py-2 border-gray-100">{{ a.asset.name }}</td>
+          <td class="px-4 py-2 border-gray-100">{{ a.assigned_from }}</td>
+          <td class="px-4 py-2 border-gray-100">{{ a.assigned_to }}</td>
+          <td class="px-4 py-2 border-gray-100">{{ a.created_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center px-4 py-6 text-gray-500">
+            No assignments yet.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<!-- Recent Users Table -->
-<h4 class="mt-6 mb-2 text-lg font-semibold">Recent Registered Users</h4>
-<div class="overflow-x-auto">
-  <table class="min-w-full bg-white border rounded shadow">
-    <thead class="bg-gray-800 text-white">
-      <tr>
-        <th class="py-2 px-3">Profile ID</th>
-        <th class="py-2 px-3">Profile Picture</th>
-        <th class="py-2 px-3">First Name</th>
-        <th class="py-2 px-3">Last Name</th>
-        <th class="py-2 px-3">Phone Number</th>
-        <th class="py-2 px-3">Email</th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-200">
-      {% for user in recent_users %}
-      <tr class="hover:bg-gray-100">
-        <td class="py-2 px-3">{{ user.profile_id }}</td>
-        <td class="py-2 px-3">
-          {% if user.profile_picture %}
-            <img src="{{ user.profile_picture.url }}" class="w-8 h-8 rounded-full">
-          {% else %}
-            <img src="{% static 'img/default_profile.png' %}" class="w-8 h-8 rounded-full">
-          {% endif %}
-        </td>
-        <td class="py-2 px-3">{{ user.first_name }}</td>
-        <td class="py-2 px-3">{{ user.last_name }}</td>
-        <td class="py-2 px-3">{{ user.phone_number }}</td>
-        <td class="py-2 px-3">{{ user.email }}</td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="6" class="py-2 px-3 text-center text-gray-500">No recent users found.</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<!-- Recent Users Section -->
+<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Recent Registered Users</h2>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table
+      class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md"
+    >
+      <thead class="bg-gray-100">
+        <tr>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            Profile ID
+          </th>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            Profile Picture
+          </th>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            First Name
+          </th>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            Last Name
+          </th>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            Phone Number
+          </th>
+          <th
+            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
+          >
+            Email
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        {% for user in recent_users %}
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-gray-100 text-center">
+            {{ user.profile_id }}
+          </td>
+          <td class="px-4 py-2 border-gray-100 text-center">
+            {% if user.profile_picture %}
+            <img
+              src="{{ user.profile_picture.url }}"
+              alt="Profile"
+              class="w-12 h-12 rounded-full object-cover mx-auto"
+            />
+            {% else %}
+            <img
+              src="{% static 'img/default_profile.png' %}"
+              alt="Default"
+              class="w-12 h-12 rounded-full object-cover mx-auto"
+            />
+            {% endif %}
+          </td>
+          <td class="px-4 py-2 border-gray-100">{{ user.first_name }}</td>
+          <td class="px-4 py-2 border-gray-100">{{ user.last_name }}</td>
+          <td class="px-4 py-2 border-gray-100">{{ user.phone_number }}</td>
+          <td class="px-4 py-2 border-gray-100">{{ user.email }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center px-4 py-6 text-gray-500">
+            No recent users found.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!-- Asset Allocation Pie Chart -->
@@ -122,46 +192,48 @@
   </div>
 </div>
 
-{% endblock page_content %}
-
-{% block scripts %}
-{{ assigned|default:0|json_script:"assigned-data" }}
-{{ available|default:0|json_script:"available-data" }}
+{% endblock page_content %} {% block scripts %} {{
+assigned|default:0|json_script:"assigned-data" }} {{
+available|default:0|json_script:"available-data" }}
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const assetData = {
-    assigned: JSON.parse(document.getElementById('assigned-data').textContent),
-    unassigned: JSON.parse(document.getElementById('available-data').textContent),
-};
+  const assetData = {
+    assigned: JSON.parse(document.getElementById("assigned-data").textContent),
+    unassigned: JSON.parse(
+      document.getElementById("available-data").textContent
+    ),
+  };
 
-const ctx = document.getElementById('assetPieChart').getContext('2d');
-new Chart(ctx, {
-    type: 'pie',
+  const ctx = document.getElementById("assetPieChart").getContext("2d");
+  new Chart(ctx, {
+    type: "pie",
     data: {
-        labels: ['Assigned', 'Unassigned'],
-        datasets: [{
-            data: [assetData.assigned, assetData.unassigned],
-            backgroundColor: ['#4e73df', '#1cc88a'],
-            hoverBackgroundColor: ['#2e59d9', '#17a673'],
-            hoverBorderColor: "rgba(234, 236, 244, 1)",
-        }],
+      labels: ["Assigned", "Unassigned"],
+      datasets: [
+        {
+          data: [assetData.assigned, assetData.unassigned],
+          backgroundColor: ["#4e73df", "#1cc88a"],
+          hoverBackgroundColor: ["#2e59d9", "#17a673"],
+          hoverBorderColor: "rgba(234, 236, 244, 1)",
+        },
+      ],
     },
     options: {
-        maintainAspectRatio: false,
-        plugins: {
-            tooltip: {
-                backgroundColor: "#fff",
-                titleColor: "#333",
-                bodyColor: "#333",
-                borderColor: '#ddd',
-                borderWidth: 1,
-                padding: 8,
-                displayColors: false,
-            },
-            legend: { display: false }
-        }
+      maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          backgroundColor: "#fff",
+          titleColor: "#333",
+          bodyColor: "#333",
+          borderColor: "#ddd",
+          borderWidth: 1,
+          padding: 8,
+          displayColors: false,
+        },
+        legend: { display: false },
+      },
     },
-});
+  });
 </script>
 {% endblock scripts %}

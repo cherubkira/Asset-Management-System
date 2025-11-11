@@ -1,6 +1,4 @@
-{% extends "asset1/base.html" %}
-
-{% block navbar %}
+{% extends "asset1/base.html" %} {% block navbar %}
 <nav class="bg-blue-700 text-white shadow ml-72">
   <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
     <h3 class="text-lg font-semibold">System Admin</h3>
@@ -8,8 +6,8 @@
       <span>Hi, {{ user.get_username }}</span>
       <form method="post" action="{% url 'asset1:logout' %}">
         {% csrf_token %}
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           class="px-3 py-1 border border-white rounded hover:bg-white hover:text-blue-700 transition"
         >
           Logout
@@ -18,44 +16,84 @@
     </div>
   </div>
 </nav>
-{% endblock %}
+{% endblock %} {% block content %}
 
-{% block content %}
-
-<div class="flex min-h-screen  ">
-
+<div class="flex min-h-screen">
   <!-- Sidebar -->
   <aside class="w-60 bg-gray-900 text-gray-200 p-4 space-y-2">
-    <a href="{% url 'asset1:dashboard' %}" class="block px-3 py-2 rounded hover:bg-gray-800">🏠 Dashboard</a>
-    <a href="{% url 'asset1:asset_list' %}" class="block px-3 py-2 rounded hover:bg-gray-800">📦 Asset</a>
-    <a href="{% url 'asset1:employee_list' %}" class="block px-3 py-2 rounded hover:bg-gray-800">👥 User Management</a>
-    <a href="{% url 'asset1:asset_history' %}" class="block px-3 py-2 rounded hover:bg-gray-800">🕓 Asset History</a>
-    <a href="{% url 'asset1:asset_category' %}" class="block px-3 py-2 rounded hover:bg-gray-800">🏷️ Asset Category</a>
-    <a href="{% url 'asset1:subcategory_list' %}" class="block px-3 py-2 rounded hover:bg-gray-800">🧩 Asset Sub Category</a>
-    <a href="{% url 'asset1:asset_status' %}" class="block px-3 py-2 rounded hover:bg-gray-800">✅ Asset Status</a>
-
+    <a
+      href="{% url 'asset1:dashboard' %}"
+      class="block px-3 py-2 rounded hover:bg-gray-800"
+      >🏠 Dashboard</a
+    >
+    <a
+      href="{% url 'asset1:asset_list' %}"
+      class="block px-3 py-2 rounded hover:bg-gray-800"
+      >📦 Asset</a
+    >
+    <a
+      href="{% url 'asset1:employee_list' %}"
+      class="block px-3 py-2 rounded hover:bg-gray-800"
+      >👥 User Management</a
+    >
+    <a
+      href="{% url 'asset1:asset_history' %}"
+      class="block px-3 py-2 rounded hover:bg-gray-800"
+      >🕓 Asset History</a
+    >
+    <a
+      href="{% url 'asset1:asset_category' %}"
+      class="block px-3 py-2 rounded hover:bg-gray-800"
+      >🏷️ Asset Category</a
+    >
+    <a
+      href="{% url 'asset1:subcategory_list' %}"
+      class="block px-3 py-2 rounded hover:bg-gray-800"
+      >🧩 Asset Sub Category</a
+    >
+    <a
+      href="{% url 'asset1:asset_status' %}"
+      class="block px-3 py-2 rounded hover:bg-gray-800"
+      >✅ Asset Status</a
+    >
 
     <!--Request Module -->
     <details class="group">
-      <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-800 flex justify-between items-center">
+      <summary
+        class="cursor-pointer px-3 py-2 rounded hover:bg-gray-800 flex justify-between items-center"
+      >
         <span>📨 Request Module</span>
         <span class="group-open:rotate-180 transition-transform">▼</span>
       </summary>
       <div class="pl-5 mt-1 space-y-1">
-        <a href="{% url 'asset1:asset_request_list' %}" class="block px-2 py-1 rounded hover:bg-gray-800">Asset Request</a>
-        <a href="{% url 'asset1:asset_issue_list' %}" class="block px-2 py-1 rounded hover:bg-gray-800">Asset Issue</a>
+        <a
+          href="{% url 'asset1:asset_request_list' %}"
+          class="block px-2 py-1 rounded hover:bg-gray-800"
+          >Asset Request</a
+        >
+        <a
+          href="{% url 'asset1:asset_issue_list' %}"
+          class="block px-2 py-1 rounded hover:bg-gray-800"
+          >Asset Issue</a
+        >
       </div>
     </details>
-    
+
     <!-- Report -->
     <details class="group">
-      <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-800 flex justify-between items-center">
+      <summary
+        class="cursor-pointer px-3 py-2 rounded hover:bg-gray-800 flex justify-between items-center"
+      >
         <span>📊 Report</span>
         <span class="group-open:rotate-180 transition-transform">▼</span>
       </summary>
       <div class="pl-5 mt-1 space-y-1">
-        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-800">Asset Info</a>
-        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-800">Asset Allocation</a>
+        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-800"
+          >Asset Info</a
+        >
+        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-800"
+          >Asset Allocation</a
+        >
       </div>
     </details>
   </aside>
@@ -67,6 +105,5 @@
     <p class="text-gray-600">Use the sidebar to navigate through the system.</p>
     {% endblock %}
   </main>
-
 </div>
 {% endblock %}
