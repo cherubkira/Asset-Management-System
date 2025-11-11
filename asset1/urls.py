@@ -21,7 +21,7 @@ urlpatterns = [
     path('asset/delete/<int:pk>/', views.asset_delete, name='asset_delete'),
     path('asset/requests/', views.asset_request_list, name='asset_request_list'),
     path('asset/issues/', views.asset_issue_list, name='asset_issue_list'),
-    path("<int:pk>/update/", views.asset_update, name="asset-update"),
+    path("asset/<int:pk>/update/", views.asset_update, name="asset-update"),
    
     path('assets/detail/<int:id>/', views.asset_detail, name='asset-detail'),
 

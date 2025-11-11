@@ -7,6 +7,7 @@ from .models import EmployeeList,Category,SubCategory,IssueReport
 from .forms import EmployeeForm, CategoryForm, SubCategoryForm, AssetRequestForm
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth import get_user_model
 
 
 
@@ -28,15 +29,19 @@ def dashboard(request):
         AssignmentHistory.objects.select_related("asset", "assigned_to", "assigned_from")
         .order_by('-created_at')[:10]
     )
-     
     
+    recent_employees = EmployeeList.objects.order_by('id')[:10]
+
+    assigned_percentage = (assigned / total_assets * 100) if total_assets else 0
+
     context = {
         "total_assets": total_assets,
         "available": available,
         "assigned": assigned,
         "pending_requests": pending_requests,
         "recent_assignments": recent_history,
-
+        "employees": recent_employees,
+        "assigned_percentage": round(assigned_percentage, 2),  
     }
     return render(request, 'asset1/dashboard.html', context)
 
@@ -167,7 +172,7 @@ def asset_update(request, pk):
         form = AssetForm(request.POST, instance=asset)
         if form.is_valid():
             form.save()
-            return redirect("asset1:asset-list")
+            return redirect("asset1:asset_list")
     else:
         form = AssetForm(instance=asset)
     return render(request, "asset1/asset_form.html", {"form": form})

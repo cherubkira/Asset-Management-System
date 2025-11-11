@@ -9,33 +9,38 @@
     <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}" />
   </head>
   <body class="bg-gray-50 text-gray-900 min-h-screen">
+
     {% block navbar %}
     <!-- Navbar -->
     <nav class="bg-blue-700 text-white shadow mb-4">
-      <div
-        class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center"
-      >
-        <a href="{%url 'asset1:landing'%}" class="text-lg font-semibold"
-          >Asset Management System</a
-        >
+      <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="{% url 'asset1:landing' %}" class="text-lg font-semibold">
+          Asset Management System
+        </a>
         <div class="flex items-center space-x-4">
           {% if user.is_authenticated %}
-          <span>Hello, {{ user.get_username }}</span>
-          <form method="post" action="{% url 'asset1:logout' %}">
-            {% csrf_token %}
-            <button
-              type="submit"
-              class="px-3 py-1 border border-white rounded hover:bg-white hover:text-blue-700 transition"
-            >
-              Logout
-            </button>
-          </form>
+            <span>Hello, {{ user.get_username }}</span>
+            <form method="post" action="{% url 'asset1:logout' %}">
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="px-3 py-1 border border-white rounded hover:bg-white hover:text-blue-700 transition"
+              >
+                Logout
+              </button>
+            </form>
           {% else %}
-          <a href="{% url 'asset1:login' %}" class="hover:underline">Login</a>
+            <a href="{% url 'asset1:login' %}" class="hover:underline">Login</a>
           {% endif %}
         </div>
       </div>
     </nav>
-    {% endblock %} {% block content %}{% endblock %}
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    <!-- Scripts block for page-specific JavaScript -->
+    {% block scripts %}{% endblock %}
+
   </body>
 </html>
