@@ -7,7 +7,7 @@ from .models import EmployeeList,Category,SubCategory,IssueReport
 from .forms import EmployeeForm, CategoryForm, SubCategoryForm, AssetRequestForm
 from django.contrib import messages
 from django.db.models import Q
-from django.contrib.auth import get_user_model
+
 
 
 
@@ -106,7 +106,19 @@ def employee_create(request):
     return render(request, 'asset1/employee_list_form.html', {'form': form})
 
 def employee_list(request):
-    employees = EmployeeList.objects.all()
+    query = request.GET.get('find_asset', '')  
+    if query:
+        employees = EmployeeList.objects.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(email__icontains=query) |
+            Q(phone_number__icontains=query) |
+            Q(department__icontains=query) |
+            Q(id__icontains=query)
+        )
+    else:
+        employees = EmployeeList.objects.all()
+
     return render(request, 'asset1/employee_list.html', {'employees': employees})
 
 def category_list(request):
@@ -157,14 +169,31 @@ def asset_delete(request, pk):
 
 
 def asset_request_list(request):
-    
-    requests = AssetRequest.objects.select_related('asset', 'requester', 'category').all().order_by('-requested_at')
-    return render(request, 'asset1/request_list.html', {'requests': requests})
+    requests = (
+        AssetRequest.objects
+        .select_related("requester", "category", "asset")
+        .all()
+        .order_by("-requested_at")
+    )
+    return render(request, "asset1/request_list.html", {"requests": requests})
+
+def create_asset_request(request):
+    if request.method == "POST":
+        form = AssetRequestForm(request.POST)
+        if form.is_valid():
+            asset_request = form.save(commit=False)
+            asset_request.requester = request.user  
+            asset_request.save()
+            return redirect("asset1:request_list")
+    else:
+        form = AssetRequestForm()
+    return render(request, "asset1/request_form.html", {"form": form})
 
 
 def asset_issue_list(request):
     issues = IssueReport.objects.select_related("asset", "reporter").all().order_by('-created_at')
     return render(request, "asset1/issue_list.html", {"issues": issues,})
+
 
 def asset_update(request, pk):
     asset = get_object_or_404(Asset, pk=pk)

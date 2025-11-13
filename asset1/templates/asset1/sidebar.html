@@ -1,29 +1,32 @@
+
 {% extends "asset1/base.html" %}
 
 {% block navbar %}
-<nav class="bg-blue-700 text-white shadow flex justify-between items-center px-4 py-3 transition-all duration-300"
-     id="navbar">
+<nav class="bg-gray-200 shadow flex justify-between items-center px-6 py-3 transition-all duration-300" id="navbar">
   <div class="flex items-center space-x-4">
     <!-- Sidebar toggle -->
-    <button id="sidebar-toggle" class="p-2 bg-blue-600 rounded hover:bg-blue-500">
-      ☰
+    <button id="sidebar-toggle" class="p-2 bg-white/70 rounded hover:bg-white text-black transition">
+      <i class="fa-solid fa-bars text-lg"></i>
     </button>
-    <h3 class="text-lg font-semibold">System Admin</h3>
+    <h3 class="text-lg font-semibold text-dark:bg-gray-800">System Admin</h3>
   </div>
 
   <div class="flex items-center space-x-4">
-    <span>Hi, {{ user.get_username }}</span>
+    <span class="text-dark:bg-gray-800 font-medium">Hi, {{ user.get_username }}</span>
     <form method="post" action="{% url 'asset1:logout' %}">
       {% csrf_token %}
       <button
         type="submit"
-        class="px-3 py-1 border border-white rounded hover:bg-white hover:text-blue-700 transition"
+        class="px-4 py-1 border border-black rounded text-black font-medium hover:bg-black hover:text-white transition"
       >
         Logout
       </button>
     </form>
   </div>
 </nav>
+
+
+
 {% endblock %}
 
 {% block content %}
@@ -31,36 +34,36 @@
 <div id="dashboard-wrapper" class="flex min-h-screen transition-all duration-300">
 
   <!-- Sidebar -->
-  <aside id="sidebar" class="w-60 bg-gray-900 text-gray-200 p-4 space-y-2 transition-all duration-300">
-    <a href="{% url 'asset1:dashboard' %}" class="block px-3 py-2 rounded hover:bg-gray-800"><i class="fas fa-home w-5"></i> Dashboard</a>
-    <a href="{% url 'asset1:asset_list' %}" class="block px-3 py-2 rounded hover:bg-gray-800"><i class="fas fa-box w-5"></i> Asset</a>
-    <a href="{% url 'asset1:employee_list' %}" class="block px-3 py-2 rounded hover:bg-gray-800"><i class="fas fa-users w-5"></i> User Management</a>
-    <a href="{% url 'asset1:asset_history' %}" class="block px-3 py-2 rounded hover:bg-gray-800"><i class="fas fa-clock w-5"></i> Asset History</a>
-    <a href="{% url 'asset1:asset_category' %}" class="block px-3 py-2 rounded hover:bg-gray-800"> <i class="fas fa-tags w-5"></i> Asset Category</a>
-    <a href="{% url 'asset1:subcategory_list' %}" class="block px-3 py-2 rounded hover:bg-gray-800"> <i class="fas fa-puzzle-piece w-5"></i> Sub Category</a>
-    <a href="{% url 'asset1:asset_status' %}" class="block px-3 py-2 rounded hover:bg-gray-800"><i class="fas fa-check-circle w-5"></i> Asset Status</a>
+  <aside id="sidebar" class="w-60 bg-gray-200 text-dark:bg-gray-800 p-4 space-y-2 transition-all duration-300">
+    <a href="{% url 'asset1:dashboard' %}" class="block px-3 py-2 rounded hover:bg-gray-200"><i class="fas fa-home w-5"></i> Dashboard</a>
+    <a href="{% url 'asset1:asset_list' %}" class="block px-3 py-2 rounded hover:bg-gray-200"><i class="fas fa-box w-5"></i> Asset</a>
+    <a href="{% url 'asset1:employee_list' %}" class="block px-3 py-2 rounded hover:bg-gray-200"><i class="fas fa-users w-5"></i> User Management</a>
+    <a href="{% url 'asset1:asset_history' %}" class="block px-3 py-2 rounded hover:bg-gray-200"><i class="fas fa-clock w-5"></i> Asset History</a>
+    <a href="{% url 'asset1:asset_category' %}" class="block px-3 py-2 rounded hover:bg-gray-200"> <i class="fas fa-tags w-5"></i> Asset Category</a>
+    <a href="{% url 'asset1:subcategory_list' %}" class="block px-3 py-2 rounded hover:bg-gray-200"> <i class="fas fa-puzzle-piece w-5"></i> Sub Category</a>
+    <a href="{% url 'asset1:asset_status' %}" class="block px-3 py-2 rounded hover:bg-gray-200"><i class="fas fa-check-circle w-5"></i> Asset Status</a>
 
     <!-- Request Module -->
     <details class="group">
-      <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-800 flex justify-between items-center">
+      <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-200 flex justify-between items-center">
         <span><i class="fas fa-envelope"></i> Request Module</span>
         <span class="group-open:rotate-180 transition-transform">▼</span>
       </summary>
       <div class="pl-5 mt-1 space-y-1">
-        <a href="{% url 'asset1:asset_request_list' %}" class="block px-2 py-1 rounded hover:bg-gray-800">Asset Request</a>
-        <a href="{% url 'asset1:asset_issue_list' %}" class="block px-2 py-1 rounded hover:bg-gray-800">Asset Issue</a>
+        <a href="{% url 'asset1:asset_request_list' %}" class="block px-2 py-1 rounded hover:bg-gray-200">Asset Request</a>
+        <a href="{% url 'asset1:asset_issue_list' %}" class="block px-2 py-1 rounded hover:bg-gray-200">Asset Issue</a>
       </div>
     </details>
 
     <!-- Report Module -->
     <details class="group">
-      <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-800 flex justify-between items-center">
+      <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-200 flex justify-between items-center">
         <span><i class="fas fa-chart-bar"></i> Report</span>
         <span class="group-open:rotate-180 transition-transform">▼</span>
       </summary>
       <div class="pl-5 mt-1 space-y-1">
-        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-800">Asset Info</a>
-        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-800">Asset Allocation</a>
+        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-200">Asset Info</a>
+        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-200">Asset Allocation</a>
       </div>
     </details>
   </aside>
@@ -83,10 +86,10 @@
   toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('w-60'); 
     sidebar.classList.toggle('w-16'); 
-    mainContent.classList.toggle('ml-60'); // shift content when expanded
-    mainContent.classList.toggle('ml-16'); // shift content when collapsed
+    mainContent.classList.toggle('ml-60'); 
+    mainContent.classList.toggle('ml-16'); 
 
-    // hide text in sidebar links when collapsed
+    
     sidebar.querySelectorAll('a, summary span').forEach(el => {
       if (sidebar.classList.contains('w-16')) {
         if(!el.querySelector('svg')) el.style.display = 'none';
