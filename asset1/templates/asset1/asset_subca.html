@@ -1,46 +1,92 @@
 {% extends "asset1/sidebar.html" %}
 
 {% block page_content %}
-<div class="max-w-5xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <!-- Header -->
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-2xl font-bold text-gray-800">Subcategories</h2>
-    <a href="{% url 'asset1:subcategory_create' %}" 
-       class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition">
+    <a href="{% url 'asset1:subcategory_create' %}"
+       class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition-colors duration-200">
       Add Subcategory
     </a>
   </div>
 
-  {% if subcategories %}
+  <!-- Search -->
+  <form method="get" class="flex items-center gap-2 mb-6">
+    <input type="text" name="search"
+           placeholder="Search subcategories..."
+           value="{{ request.GET.search }}"
+           class="w-64 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"/>
+    <button type="submit"
+            class="px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-md hover:bg-gray-200 transition-colors duration-200">
+      Search
+    </button>
+  </form>
+
+  <!-- Table -->
   <div class="overflow-x-auto">
-    <table class="min-w-full divide-y divide-gray-200 rounded-lg shadow-sm">
+    <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
       <thead class="bg-gray-100">
         <tr>
           <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">ID</th>
           <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Category</th>
           <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Subcategory</th>
           <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Description</th>
-          <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Actions</th>
+          <th class="px-6 py-3 text-right text-sm font-medium text-gray-600 uppercase tracking-wider">Actions</th>
         </tr>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
+      <tbody>
         {% for sub in subcategories %}
         <tr class="hover:bg-gray-50">
-          <td class="px-6 py-3 text-sm">{{ sub.id }}</td>
-          <td class="px-6 py-3 text-sm">{{ sub.category.name }}</td>
-          <td class="px-6 py-3 text-sm">{{ sub.name }}</td>
-          <td class="px-6 py-3 text-sm">{{ sub.description }}</td>
-       
+          <td class="px-6 py-3 border-gray-100">{{ sub.id }}</td>
+          <td class="px-6 py-3 border-gray-100">{{ sub.category.name }}</td>
+          <td class="px-6 py-3 border-gray-100">{{ sub.name }}</td>
+          <td class="px-6 py-3 border-gray-100">{{ sub.description|default:"—" }}</td>
+          <td class="px-6 py-3 border-gray-100 text-right">
+            <a href="#"
+               class="px-4 py-1 text-sm text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 transition">
+              Edit
+            </a>
+            <a href="#"
+               class="px-4 py-1 text-sm text-red-600 border border-red-300 rounded-md hover:bg-red-100 transition ml-2">
+              Delete
+            </a>
+          </td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="5" class="px-6 py-4 text-center text-gray-500">No subcategories found.</td>
+          <td colspan="5" class="text-center px-6 py-6 text-gray-500">
+            No subcategories found.
+          </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
-  {% else %}
-    <p class="text-center text-gray-500 mt-4">No subcategories available.</p>
+
+  <!-- Pagination -->
+  {% if is_paginated %}
+  <div class="mt-6 flex items-center justify-between text-sm text-gray-600">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}"
+       class="px-3 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200 transition">
+      Prev
+    </a>
+    {% else %}
+    <span class="px-3 py-1 bg-gray-50 border border-gray-200 rounded text-gray-400">Prev</span>
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}"
+       class="px-3 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200 transition">
+      Next
+    </a>
+    {% else %}
+    <span class="px-3 py-1 bg-gray-50 border border-gray-200 rounded text-gray-400">Next</span>
+    {% endif %}
+  </div>
   {% endif %}
 </div>
 {% endblock %}

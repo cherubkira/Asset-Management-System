@@ -1,102 +1,158 @@
-
 {% extends "asset1/base.html" %}
 
-{% block navbar %}
-<nav class="bg-gray-200 shadow flex justify-between items-center px-6 py-3 transition-all duration-300" id="navbar">
-  <div class="flex items-center space-x-4">
-    <!-- Sidebar toggle -->
-    <button id="sidebar-toggle" class="p-2 bg-white/70 rounded hover:bg-white text-black transition">
-      <i class="fa-solid fa-bars text-lg"></i>
-    </button>
-    <h3 class="text-lg font-semibold text-dark:bg-gray-800">System Admin</h3>
-  </div>
-
-  <div class="flex items-center space-x-4">
-    <span class="text-dark:bg-gray-800 font-medium">Hi, {{ user.get_username }}</span>
-    <form method="post" action="{% url 'asset1:logout' %}">
-      {% csrf_token %}
-      <button
-        type="submit"
-        class="px-4 py-1 border border-black rounded text-black font-medium hover:bg-black hover:text-white transition"
-      >
-        Logout
-      </button>
-    </form>
-  </div>
-</nav>
-
-
-
-{% endblock %}
-
 {% block content %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-<div id="dashboard-wrapper" class="flex min-h-screen transition-all duration-300">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
-  <!-- Sidebar -->
-  <aside id="sidebar" class="w-60 bg-gray-200 text-dark:bg-gray-800 p-4 space-y-2 transition-all duration-300">
-    <a href="{% url 'asset1:dashboard' %}" class="block px-3 py-2 rounded hover:bg-gray-200"><i class="fas fa-home w-5"></i> Dashboard</a>
-    <a href="{% url 'asset1:asset_list' %}" class="block px-3 py-2 rounded hover:bg-gray-200"><i class="fas fa-box w-5"></i> Asset</a>
-    <a href="{% url 'asset1:employee_list' %}" class="block px-3 py-2 rounded hover:bg-gray-200"><i class="fas fa-users w-5"></i> User Management</a>
-    <a href="{% url 'asset1:asset_history' %}" class="block px-3 py-2 rounded hover:bg-gray-200"><i class="fas fa-clock w-5"></i> Asset History</a>
-    <a href="{% url 'asset1:asset_category' %}" class="block px-3 py-2 rounded hover:bg-gray-200"> <i class="fas fa-tags w-5"></i> Asset Category</a>
-    <a href="{% url 'asset1:subcategory_list' %}" class="block px-3 py-2 rounded hover:bg-gray-200"> <i class="fas fa-puzzle-piece w-5"></i> Sub Category</a>
-    <a href="{% url 'asset1:asset_status' %}" class="block px-3 py-2 rounded hover:bg-gray-200"><i class="fas fa-check-circle w-5"></i> Asset Status</a>
+<!-- PAGE WRAPPER -->
+<div class="flex min-h-screen w-full bg-gray-50">
 
-    <!-- Request Module -->
-    <details class="group">
-      <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-200 flex justify-between items-center">
-        <span><i class="fas fa-envelope"></i> Request Module</span>
-        <span class="group-open:rotate-180 transition-transform">▼</span>
-      </summary>
-      <div class="pl-5 mt-1 space-y-1">
-        <a href="{% url 'asset1:asset_request_list' %}" class="block px-2 py-1 rounded hover:bg-gray-200">Asset Request</a>
-        <a href="{% url 'asset1:asset_issue_list' %}" class="block px-2 py-1 rounded hover:bg-gray-200">Asset Issue</a>
-      </div>
-    </details>
+    <!-- SIDEBAR -->
+    <aside id="sidebar"
+           class="bg-gray-200 w-64 min-h-full flex-shrink-0 overflow-y-auto transition-all duration-300">
 
-    <!-- Report Module -->
-    <details class="group">
-      <summary class="cursor-pointer px-3 py-2 rounded hover:bg-gray-200 flex justify-between items-center">
-        <span><i class="fas fa-chart-bar"></i> Report</span>
-        <span class="group-open:rotate-180 transition-transform">▼</span>
-      </summary>
-      <div class="pl-5 mt-1 space-y-1">
-        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-200">Asset Info</a>
-        <a href="#" class="block px-2 py-1 rounded hover:bg-gray-200">Asset Allocation</a>
-      </div>
-    </details>
-  </aside>
+        <div class="flex flex-col justify-between h-full">
 
-  <!-- Main Content -->
-  <main id="main-content" class="flex-1 p-6 transition-all duration-300">
-    {% block page_content %}
-    <h2 class="text-2xl font-semibold mb-2">Welcome to the Dashboard</h2>
-    <p class="text-gray-600">Use the sidebar to navigate through the system.</p>
-    {% endblock %}
-  </main>
+            <!-- MENU ITEMS -->
+            <div class="flex flex-col gap-2 p-4">
+
+                <a href="{% url 'asset1:dashboard' %}"
+                   class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-300">
+                    <i class="fas fa-home w-5"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+
+                <a href="{% url 'asset1:asset_list' %}"
+                   class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-300">
+                    <i class="fas fa-box w-5"></i>
+                    <span class="sidebar-text">Asset</span>
+                </a>
+
+                <a href="{% url 'asset1:employee_list' %}"
+                   class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-300">
+                    <i class="fas fa-users w-5"></i>
+                    <span class="sidebar-text">User Management</span>
+                </a>
+
+                <a href="{% url 'asset1:asset_history' %}"
+                   class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-300">
+                    <i class="fas fa-clock w-5"></i>
+                    <span class="sidebar-text">Asset History</span>
+                </a>
+
+                <a href="{% url 'asset1:asset_category' %}"
+                   class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-300">
+                    <i class="fas fa-tags w-5"></i>
+                    <span class="sidebar-text">Asset Category</span>
+                </a>
+
+                <a href="{% url 'asset1:subcategory_list' %}"
+                   class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-300">
+                    <i class="fas fa-puzzle-piece w-5"></i>
+                    <span class="sidebar-text">Sub Category</span>
+                </a>
+
+                <a href="{% url 'asset1:asset_status' %}"
+                   class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-300">
+                    <i class="fas fa-check-circle w-5"></i>
+                    <span class="sidebar-text">Asset Status</span>
+                </a>
+
+                <!-- Request Module -->
+                <details class="group">
+                    <summary class="flex justify-between items-center px-3 py-2
+                                   rounded cursor-pointer hover:bg-gray-300">
+                        <span>
+                            <i class="fas fa-envelope w-5"></i>
+                            <span class="sidebar-text">Request Module</span>
+                        </span>
+                        <i class="fas fa-chevron-down transition-transform group-open:rotate-180"></i>
+                    </summary>
+
+                    <div class="pl-6 mt-1 flex flex-col gap-1">
+                        <a href="{% url 'asset1:asset_request_list' %}"
+                           class="px-2 py-1 rounded hover:bg-gray-300 sidebar-text">
+                            Asset Request
+                        </a>
+                        <a href="{% url 'asset1:asset_issue_list' %}"
+                           class="px-2 py-1 rounded hover:bg-gray-300 sidebar-text">
+                            Asset Issue
+                        </a>
+                    </div>
+                </details>
+
+                <!-- Report Module -->
+                <details class="group">
+                    <summary class="flex justify-between items-center px-3 py-2
+                                   rounded cursor-pointer hover:bg-gray-300">
+                        <span>
+                            <i class="fas fa-chart-bar w-5"></i>
+                            <span class="sidebar-text">Report</span>
+                        </span>
+                        <i class="fas fa-chevron-down transition-transform group-open:rotate-180"></i>
+                    </summary>
+
+                    <div class="pl-6 mt-1 flex flex-col gap-1">
+                        <a href="#" class="px-2 py-1 rounded hover:bg-gray-300 sidebar-text">Asset Info</a>
+                        <a href="#" class="px-2 py-1 rounded hover:bg-gray-300 sidebar-text">Asset Allocation</a>
+                    </div>
+                </details>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="flex-1 flex flex-col min-h-full">
+
+        <!-- NAVBAR -->
+        <nav class="bg-white shadow flex justify-between items-center px-10 h-16 flex-shrink-0">
+            <div class="flex items-center gap-4">
+                <button id="sidebar-toggle"
+                        class="p-2 rounded bg-gray-100 hover:bg-gray-200 transition">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                
+            </div>
+
+            <div class="flex items-center gap-4">
+                <span>Hi, {{ user.get_username }}</span>
+                <form method="post" action="{% url 'asset1:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="px-4 py-1 border border-gray-700 rounded
+                                   hover:bg-gray-700 hover:text-white transition">
+                        Logout
+                    </button>
+                </form>
+            </div>
+
+        </nav>
+        <hr>
+
+        <!-- CONTENT -->
+        <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+            {% block page_content %}{% endblock %}
+        </main>
+
+    </div>
 
 </div>
 
+<!-- TOGGLE SIDEBAR -->
 <script>
-  const sidebar = document.getElementById('sidebar');
-  const mainContent = document.getElementById('main-content');
-  const toggleBtn = document.getElementById('sidebar-toggle');
+    const sidebar = document.getElementById("sidebar");
+    const toggleBtn = document.getElementById("sidebar-toggle");
 
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('w-60'); 
-    sidebar.classList.toggle('w-16'); 
-    mainContent.classList.toggle('ml-60'); 
-    mainContent.classList.toggle('ml-16'); 
+    toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("w-64");
+        sidebar.classList.toggle("w-16");
 
-    
-    sidebar.querySelectorAll('a, summary span').forEach(el => {
-      if (sidebar.classList.contains('w-16')) {
-        if(!el.querySelector('svg')) el.style.display = 'none';
-      } else {
-        el.style.display = '';
-      }
+        document.querySelectorAll(".sidebar-text").forEach(el => {
+            el.classList.toggle("hidden");
+        });
     });
-  });
 </script>
+
 {% endblock %}
