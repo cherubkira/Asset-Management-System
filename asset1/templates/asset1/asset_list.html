@@ -1,151 +1,115 @@
-{% extends "asset1/sidebar.html" %} {% block page_content %}
-<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-  <!-- Header -->
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold">Asset List</h2>
-    <a
-      href="{% url 'asset1:asset-create' %}"
-      class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition-colors duration-200"
-    >
-      Add Asset
-    </a>
-  </div>
+{% extends "asset1/sidebar.html" %}
+{% block page_content %}
 
-  <!-- Search -->
-  <form method="get" class="flex items-center gap-2 mb-6">
-    <input
-      type="text"
-      name="find_asset"
-      placeholder="Search assets..."
-      value="{{ request.GET.find_asset }}"
-      class="w-64 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-    />
-    <button
-      type="submit"
-      class="px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-md hover:bg-gray-200 transition-colors duration-200"
-    >
-      Search
-    </button>
-  </form>
+<!-- MAIN WRAPPER (adds space under navbar) -->
+<div class="flex-1 flex flex-col min-h-screen pt-20"> 
 
-  <!-- Table -->
-  <div class="overflow-x-auto">
-    <table
-      class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md"
-    >
-      <thead class="bg-gray-100">
-        <tr>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            ID
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Name
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Category
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Status
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Assigned To
-          </th>
-          <th
-            class="px-6 py-3 text-right text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for asset in object_list %}
-        <tr class="hover:bg-gray-50">
-          <td class="px-4 py-2 border-gray-100 text-center">
-            <a
-              href="{% url 'asset1:asset-detail' asset.id %}"
-              class="text-blue-600 hover:underline"
-            >
-              {{ asset.id }}
+    <!-- CONTENT WRAPPER -->
+    <div class="flex-1 p-6">
+
+        <!-- HEADER -->
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold">Asset List</h2>
+
+            <a href="{% url 'asset1:asset-create' %}"
+               class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition">
+                Add Asset
             </a>
-          </td>
-          <td class="px-4 py-2 border-gray-100">{{ asset.name }}</td>
-          <td class="px-4 py-2 border-gray-100">{{ asset.category }}</td>
-          <td class="px-4 py-2 border-gray-100">
-            <span
-              class="px-2 py-1 text-xs font-semibold rounded-full {% if asset.status == 'available' %} bg-green-100 text-green-700 {% elif asset.status == 'assigned' %} bg-blue-100 text-blue-700 {% elif asset.status == 'maintenance' %} bg-yellow-100 text-yellow-700 {% else %} bg-gray-100 text-gray-600 {% endif %}"
-            >
-              {{ asset.get_status_display }}
-            </span>
-          </td>
-          <td class="px-4 py-2 border-gray-100">
-            {{ asset.assigned_to|default:"—" }}
-          </td>
-          <td class="px-4 py-2 border-gray-100 text-right">
-            <a
-              href="{% url 'asset1:asset-update' asset.id %}"
-              class="px-4 py-1 text-sm text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 transition"
-            >
-              Edit
+        </div>
+
+        <!-- SEARCH BAR -->
+        <form method="get" class="flex flex-wrap items-center gap-2 mb-4 w-full">
+            <input type="text"
+                   name="find_asset"
+                   placeholder="Search assets..."
+                   value="{{ request.GET.find_asset }}"
+                   class="flex-grow border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+
+            <button type="submit"
+                    class="px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-md hover:bg-gray-200 transition">
+                Search
+            </button>
+        </form>
+
+        <!-- TABLE CONTAINER (FULLY RESPONSIVE, NO SCROLL) -->
+        <div class="bg-white rounded-lg shadow p-4 w-full">
+
+            <table class="w-full table-fixed border border-gray-200 rounded-lg">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 uppercase w-12">ID</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 uppercase">Name</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 uppercase">Category</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 uppercase">Status</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 uppercase">Assigned To</th>
+                        <th class="px-4 py-2 text-right text-sm font-medium text-gray-600 uppercase w-24">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-200">
+                    {% for asset in object_list %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-2 text-center truncate">{{ asset.id }}</td>
+                        <td class="px-4 py-2 truncate">{{ asset.name }}</td>
+                        <td class="px-4 py-2 truncate">{{ asset.category }}</td>
+
+                        <td class="px-4 py-2">
+                            <span class="px-2 py-1 text-xs font-semibold rounded-full
+                                {% if asset.status == 'available' %}bg-green-100 text-green-700
+                                {% elif asset.status == 'assigned' %}bg-blue-100 text-blue-700
+                                {% elif asset.status == 'maintenance' %}bg-yellow-100 text-yellow-700
+                                {% else %}bg-gray-100 text-gray-600{% endif %}">
+                                {{ asset.get_status_display }}
+                            </span>
+                        </td>
+
+                        <td class="px-4 py-2 truncate">{{ asset.assigned_to|default:"—" }}</td>
+
+                        <td class="px-4 py-2 text-right">
+                            <a href="{% url 'asset1:asset-update' asset.id %}"
+                               class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition">
+                                Edit
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-6 text-gray-500">No assets found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAGINATION -->
+        {% if is_paginated %}
+        <div class="flex items-center justify-between text-sm text-gray-600 mt-4">
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}"
+               class="px-3 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200">
+                Prev
             </a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="6" class="text-center px-4 py-6 text-gray-500">
-            No assets found.
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+            {% else %}
+            <span class="px-3 py-1 bg-gray-50 border border-gray-200 rounded text-gray-400">Prev</span>
+            {% endif %}
 
-  <!-- Pagination -->
-  {% if is_paginated %}
-  <div class="mt-6 flex items-center justify-between text-sm text-gray-600">
-    {% if page_obj.has_previous %}
-    <a
-      href="?page={{ page_obj.previous_page_number }}"
-      class="px-3 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200 transition"
-    >
-      Prev
-    </a>
-    {% else %}
-    <span
-      class="px-3 py-1 bg-gray-50 border border-gray-200 rounded text-gray-400"
-      >Prev</span
-    >
-    {% endif %}
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
 
-    <span
-      >Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span
-    >
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"
+               class="px-3 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200">
+                Next
+            </a>
+            {% else %}
+            <span class="px-3 py-1 bg-gray-50 border border-gray-200 rounded text-gray-400">Next</span>
+            {% endif %}
+        </div>
+        {% endif %}
 
-    {% if page_obj.has_next %}
-    <a
-      href="?page={{ page_obj.next_page_number }}"
-      class="px-3 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200 transition"
-    >
-      Next
-    </a>
-    {% else %}
-    <span
-      class="px-3 py-1 bg-gray-50 border border-gray-200 rounded text-gray-400"
-      >Next</span
-    >
-    {% endif %}
-  </div>
-  {% endif %}
+    </div>
 </div>
-
+<style>
+/* Ensure no horizontal scroll on body */
+html, body { overflow-x: hidden; }
+</style>
 {% endblock %}

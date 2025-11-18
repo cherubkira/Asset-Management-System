@@ -1,205 +1,143 @@
-{% extends "asset1/sidebar.html" %} {% load static %} {% block page_content %}
+{% extends "asset1/sidebar.html" %}
+{% load static %}
 
-<!-- Dashboard Cards -->
-<div class="flex flex-wrap -mx-2 mt-2">
-  <!-- Total Assets -->
-  <div class="w-1/4 px-2 mb-4">
-    <div class="bg-blue-600 text-white rounded shadow p-4 text-center">
-      <i class="bi bi-bank text-4xl mb-2"></i>
-      <h5 class="font-medium">Total Assets</h5>
-      <h3 class="text-2xl font-bold">{{ total_assets }}</h3>
+{% block page_content %}
+<!-- Add top padding to account for sticky navbar (h-20 -> 5rem) -->
+<div class="pt-20">
+
+  <!-- Dashboard Cards: All 4 in one row -->
+  <div class="flex flex-wrap gap-4">
+    <!-- Total Assets -->
+    <div class="flex-1 min-w-[12rem] sm:w-1/4">
+      <div class="bg-blue-600 text-white rounded shadow p-4 text-center">
+        <i class="bi bi-bank text-4xl mb-2"></i>
+        <h5 class="font-medium">Total Assets</h5>
+        <h3 class="text-2xl font-bold">{{ total_assets }}</h3>
+      </div>
+    </div>
+
+    <!-- Available -->
+    <div class="flex-1 min-w-[12rem] sm:w-1/4">
+      <div class="bg-green-600 text-white rounded shadow p-4 text-center">
+        <i class="bi bi-check2-circle text-4xl mb-2"></i>
+        <h5 class="font-medium">Available</h5>
+        <h3 class="text-2xl font-bold">{{ available }}</h3>
+      </div>
+    </div>
+
+    <!-- Assigned -->
+    <div class="flex-1 min-w-[12rem] sm:w-1/4">
+      <div class="bg-yellow-400 text-gray-900 rounded shadow p-4 text-center">
+        <i class="bi bi-people-fill text-4xl mb-2"></i>
+        <h5 class="font-medium">Assigned</h5>
+        <h3 class="text-2xl font-bold">{{ assigned }}</h3>
+      </div>
+    </div>
+
+    <!-- Pending Requests -->
+    <div class="flex-1 min-w-[12rem] sm:w-1/4">
+      <div class="bg-red-600 text-white rounded shadow p-4 text-center">
+        <i class="bi bi-person-lines-fill text-4xl mb-2"></i>
+        <h5 class="font-medium">Pending Requests</h5>
+        <h3 class="text-2xl font-bold">{{ pending_requests }}</h3>
+      </div>
     </div>
   </div>
 
-  <!-- Available -->
-  <div class="w-1/4 px-2 mb-4">
-    <div class="bg-green-600 text-white rounded shadow p-4 text-center">
-      <i class="bi bi-check2-circle text-4xl mb-2"></i>
-      <h5 class="font-medium">Available</h5>
-      <h3 class="text-2xl font-bold">{{ available }}</h3>
+  <!-- Recent Assignments -->
+  <div class="mt-10 bg-white rounded-lg shadow p-4 sm:p-6">
+    <h2 class="text-2xl font-bold mb-4">Recent Assignments</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full border border-gray-200 rounded-lg">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Asset ID</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Asset Name</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">From</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">To</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Assigned At</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          {% for a in recent_assignments %}
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2 text-center whitespace-nowrap">{{ a.asset.id }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ a.asset.name }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ a.assigned_from }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ a.assigned_to }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ a.created_at }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center py-6 text-gray-500">No assignments yet.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- Assigned -->
-  <div class="w-1/4 px-2 mb-4">
-    <div class="bg-yellow-400 text-gray-900 rounded shadow p-4 text-center">
-      <i class="bi bi-people-fill text-4xl mb-2"></i>
-      <h5 class="font-medium">Assigned</h5>
-      <h3 class="text-2xl font-bold">{{ assigned }}</h3>
+  <!-- Recent Users -->
+  <div class="mt-10 bg-white rounded-lg shadow p-4 sm:p-6">
+    <h2 class="text-2xl font-bold mb-4">Recent Registered Users</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full border border-gray-200 rounded-lg">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Profile ID</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Profile Picture</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">First Name</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Last Name</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Phone Number</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Email</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          {% for user in employees %}
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2 text-center whitespace-nowrap">{{ user.id }}</td>
+            <td class="px-4 py-2 text-center">
+              {% if user.img %}
+              <img src="{{ user.img.url }}" class="w-12 h-12 rounded-full mx-auto object-cover" />
+              {% else %}
+              <img src="{% static 'img/default_profile.png' %}" class="w-12 h-12 rounded-full mx-auto object-cover" />
+              {% endif %}
+            </td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ user.first_name }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ user.last_name }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ user.phone_number }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ user.email }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="text-center py-6 text-gray-500">No recent users found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- Pending Requests -->
-  <div class="w-1/4 px-2 mb-4">
-    <div class="bg-red-600 text-white rounded shadow p-4 text-center">
-      <i class="bi bi-person-lines-fill text-4xl mb-2"></i>
-      <h5 class="font-medium">Pending Requests</h5>
-      <h3 class="text-2xl font-bold">{{ pending_requests }}</h3>
+  <!-- Asset Pie Chart -->
+  <div class="mt-6 bg-white rounded shadow p-4">
+    <h6 class="text-blue-700 font-semibold mb-2">Asset Allocation Summary</h6>
+    <div class="max-w-md mx-auto">
+      <canvas id="assetPieChart" class="w-full h-64"></canvas>
+      <div class="text-center mt-2">Assigned: {{ assigned_percentage }} %</div>
     </div>
   </div>
 </div>
 
-<!-- Recent Assignments Section -->
-<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold">Recent Assignments</h2>
-  </div>
-
-  <div class="overflow-x-auto">
-    <table
-      class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md"
-    >
-      <thead class="bg-gray-100">
-        <tr>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Asset ID
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Asset Name
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            From
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            To
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Assigned At
-          </th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200">
-        {% for a in recent_assignments %}
-        <tr class="hover:bg-gray-50">
-          <td class="px-4 py-2 border-gray-100 text-center">
-            {{ a.asset.id }}
-          </td>
-          <td class="px-4 py-2 border-gray-100">{{ a.asset.name }}</td>
-          <td class="px-4 py-2 border-gray-100">{{ a.assigned_from }}</td>
-          <td class="px-4 py-2 border-gray-100">{{ a.assigned_to }}</td>
-          <td class="px-4 py-2 border-gray-100">{{ a.created_at }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="5" class="text-center px-4 py-6 text-gray-500">
-            No assignments yet.
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Recent Users Section -->
-<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold">Recent Registered Users</h2>
-  </div>
-
-  <div class="overflow-x-auto">
-    <table
-      class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md"
-    >
-      <thead class="bg-gray-100">
-        <tr>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Profile ID
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Profile Picture
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            First Name
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Last Name
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Phone Number
-          </th>
-          <th
-            class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider"
-          >
-            Email
-          </th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200">
-        {% for user in employees %}
-        <tr class="hover:bg-gray-50">
-          <td class="px-4 py-2 border-gray-100 text-center">
-            {{ user.id }}
-          </td>
-          <td class="px-4 py-2 border-gray-100 text-center">
-            {% if user.img %}
-            <img
-              src="{{ user.img.url }}"
-              alt="Profile"
-              class="w-12 h-12 rounded-full object-cover mx-auto"
-            />
-            {% else %}
-            <img
-              src="{% static 'img/default_profile.png' %}"
-              alt="Default"
-              class="w-12 h-12 rounded-full object-cover mx-auto"
-            />
-            {% endif %}
-          </td>
-          <td class="px-4 py-2 border-gray-100">{{ user.first_name }}</td>
-          <td class="px-4 py-2 border-gray-100">{{ user.last_name }}</td>
-          <td class="px-4 py-2 border-gray-100">{{ user.phone_number }}</td>
-          <td class="px-4 py-2 border-gray-100">{{ user.email }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="6" class="text-center px-4 py-6 text-gray-500">
-            No recent users found.
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Asset Allocation Pie Chart -->
-<div class="bg-white rounded shadow mt-6 p-4">
-  <h6 class="text-blue-700 font-semibold mb-2">Asset Allocation Summary</h6>
-  <div class="max-w-md mx-auto">
-    <canvas id="assetPieChart" class="w-full h-64"></canvas>
-    <div class="text-center mt-2">Assigned: {{ assigned_percentage }} %</div>
-  </div>
-</div>
-
-
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+const assignedDataEl = document.getElementById("assigned-data");
+const availableDataEl = document.getElementById("available-data");
+
+if(assignedDataEl && availableDataEl) {
   const assetData = {
-    assigned: JSON.parse(document.getElementById("assigned-data").textContent),
-    unassigned: JSON.parse(
-      document.getElementById("available-data").textContent
-    ),
+    assigned: JSON.parse(assignedDataEl.textContent),
+    unassigned: JSON.parse(availableDataEl.textContent)
   };
 
   const ctx = document.getElementById("assetPieChart").getContext("2d");
@@ -207,14 +145,12 @@
     type: "pie",
     data: {
       labels: ["Assigned", "Unassigned"],
-      datasets: [
-        {
-          data: [assetData.assigned, assetData.unassigned],
-          backgroundColor: ["#4e73df", "#1cc88a"],
-          hoverBackgroundColor: ["#2e59d9", "#17a673"],
-          hoverBorderColor: "rgba(234, 236, 244, 1)",
-        },
-      ],
+      datasets: [{
+        data: [assetData.assigned, assetData.unassigned],
+        backgroundColor: ["#4e73df", "#1cc88a"],
+        hoverBackgroundColor: ["#2e59d9", "#17a673"],
+        hoverBorderColor: "rgba(234,236,244,1)"
+      }]
     },
     options: {
       maintainAspectRatio: false,
@@ -226,11 +162,18 @@
           borderColor: "#ddd",
           borderWidth: 1,
           padding: 8,
-          displayColors: false,
+          displayColors: false
         },
-        legend: { display: false },
-      },
-    },
+        legend: { display: false }
+      }
+    }
   });
+}
 </script>
-{% endblock%}
+
+<style>
+/* Ensure no horizontal scroll on body */
+html, body { overflow-x: hidden; }
+</style>
+
+{% endblock %}
