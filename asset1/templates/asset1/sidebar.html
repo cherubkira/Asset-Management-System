@@ -114,9 +114,9 @@
     </nav>
     
  <main id="main-content"
-      class="overflow-y-auto p-6 bg-gray-50 transition-all duration-300"
-      style="margin-left: 16rem; margin-top: 5rem; min-height: calc(100vh - 5rem); width: calc(100vw - 16rem);">
-    {% block page_content %}{% endblock %}
+      class="overflow-y-auto p-6 bg-gray-50 transition-all duration-300"
+      style="margin-left: 16rem; margin-top: 5rem; min-height: calc(100vh - 5rem);">
+    {% block page_content %}{% endblock %}
 </main>
 
 
@@ -130,43 +130,45 @@
     const mainContent = document.getElementById("main-content");
     const navbar = document.getElementById("navbar");
 
-    // Define widths in rem (now accurately used for all elements)
-    // Change these values to match your calculated dimensions
-    const sidebarWidthExpanded = '16rem';  // Changed from 13.4rem
-    const sidebarWidthCollapsed = '4.5rem';  // Changed from 5.5rem
-    
-    // Add the class used to track the expanded state, even though the width is inline
-    sidebar.classList.add("expanded");
 
-    toggleBtn.addEventListener("click", () => {
-        
-        // Use a simple class toggle to track state since we removed w-64/w-16 from HTML
-        const isExpanded = sidebar.classList.toggle("expanded");
+    // Define widths in rem (now accurately used for all elements)
+    const sidebarWidthExpanded = '16rem';
+    const sidebarWidthCollapsed = '4.5rem';
+    
+    sidebar.classList.add("expanded");
 
-        let targetWidth, targetMargin;
+    toggleBtn.addEventListener("click", () => {
+        
+        const isExpanded = sidebar.classList.toggle("expanded");
 
-        if (isExpanded) {
-            // New state is EXPANDED (16rem)
-            targetWidth = sidebarWidthExpanded;
-            targetMargin = sidebarWidthExpanded;
+        let targetWidth, targetMargin;
 
-        } else {
-            // New state is COLLAPSED (4.5rem)
-            targetWidth = sidebarWidthCollapsed;
-            targetMargin = sidebarWidthCollapsed;
-        }
-        
-        // --- Apply styles dynamically ---
-        sidebar.style.width = targetWidth; // Control sidebar width via style
-        navbar.style.left = targetWidth;
-        navbar.style.width = `calc(100vw - ${targetWidth})`; 
-        mainContent.style.marginLeft = targetMargin;
-        
-        // Toggle text visibility in sidebar
-        document.querySelectorAll(".sidebar-text").forEach(el => {
-            el.classList.toggle("hidden");
-        });
-    });
+        if (isExpanded) {
+            // New state is EXPANDED (16rem)
+            targetWidth = sidebarWidthExpanded;
+            targetMargin = sidebarWidthExpanded;
+
+        } else {
+            // New state is COLLAPSED (4.5rem)
+            targetWidth = sidebarWidthCollapsed;
+            targetMargin = sidebarWidthCollapsed;
+        }
+        
+        // --- Apply styles dynamically ---
+        sidebar.style.width = targetWidth; // Sidebar width
+        navbar.style.left = targetWidth; // Navbar starting point
+        navbar.style.width = `calc(100vw - ${targetWidth})`; // Navbar width (MUST keep this)
+        mainContent.style.marginLeft = targetMargin; // Main content starting point
+        
+        // **REMOVED: mainContent.style.width calculation**
+        // The main content should now automatically fill the remaining space 
+        // because it has no explicit width set, only a margin.
+        
+        // Toggle text visibility in sidebar
+        document.querySelectorAll(".sidebar-text").forEach(el => {
+            el.classList.toggle("hidden");
+        });
+    });
 </script>
 
 
