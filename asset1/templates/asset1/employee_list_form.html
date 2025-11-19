@@ -8,55 +8,59 @@ Add Employee
 {% block page_content %}
 
 <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-  <h2 class="text-3xl font-bold text-center mb-6">Add Employee</h2>
+  <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Add Employee</h2>
 
+  <!-- Ensure enctype="multipart/form-data" is present for file uploads to work -->
   <form method="post" enctype="multipart/form-data" class="space-y-5">
     {% csrf_token %}
 
     <!-- Image Upload with Preview -->
     <div>
-      <label class="block text-gray-700 font-medium mb-2">Profile Image</label>
-      {{ form.img|add_class:"w-full border rounded-md p-2" }}
+      <label for="{{ form.img.id_for_label }}" class="block text-gray-700 font-medium mb-2">Profile Image</label>
+      <!-- Adding file input specific styles -->
+      {{ form.img|add_class:"w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" }}
       <img
         id="imgPreview"
-        class="mt-2 w-24 h-24 rounded-full object-cover hidden"
+        src="#"
+        alt="Image preview"
+        class="mt-4 w-24 h-24 rounded-full object-cover hidden"
       />
     </div>
 
     <!-- First Name -->
     <div>
-      <label class="block text-gray-700 font-medium mb-1">First Name</label>
-      {{ form.first_name|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+      <label for="{{ form.first_name.id_for_label }}" class="block text-gray-700 font-medium mb-1">First Name</label>
+      {{ form.first_name|add_class:"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
     </div>
 
     <!-- Last Name -->
     <div>
-      <label class="block text-gray-700 font-medium mb-1">Last Name</label>
-      {{ form.last_name|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+      <label for="{{ form.last_name.id_for_label }}" class="block text-gray-700 font-medium mb-1">Last Name</label>
+      {{ form.last_name|add_class:"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
     </div>
 
     <!-- Phone -->
     <div>
-      <label class="block text-gray-700 font-medium mb-1">Phone Number</label>
-      {{ form.phone_number|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+      <label for="{{ form.phone_number.id_for_label }}" class="block text-gray-700 font-medium mb-1">Phone Number</label>
+      {{ form.phone_number|add_class:"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
     </div>
 
     <!-- Email -->
     <div>
-      <label class="block text-gray-700 font-medium mb-1">Email</label>
-      {{ form.email|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+      <label for="{{ form.email.id_for_label }}" class="block text-gray-700 font-medium mb-1">Email</label>
+      {{ form.email|add_class:"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
     </div>
 
     <!-- Department -->
     <div>
-      <label class="block text-gray-700 font-medium mb-1">Department</label>
-      {{ form.department|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+      <label for="{{ form.department.id_for_label }}" class="block text-gray-700 font-medium mb-1">Department</label>
+      {{ form.department|add_class:"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
     </div>
 
     <!-- Position -->
     <div>
-      <label class="block text-gray-700 font-medium mb-1">Position</label>
-      {{ form.position|add_class:"w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+      <label for="{{ form.position.id_for_label }}" class="block text-gray-700 font-medium mb-1">Position</label>
+      {{ form.position|add_class:"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }}
     </div>
 
     <button
@@ -69,12 +73,14 @@ Add Employee
 </div>
 
 <script>
+  // Script to provide an instant preview of the selected image
   const imgInput = document.querySelector('input[name="img"]');
   const imgPreview = document.getElementById("imgPreview");
 
   imgInput.addEventListener("change", () => {
     const file = imgInput.files[0];
     if (file) {
+      // Create a URL for the selected file and display it
       imgPreview.src = URL.createObjectURL(file);
       imgPreview.classList.remove("hidden");
     } else {
@@ -83,10 +89,9 @@ Add Employee
     }
   });
 </script>
+<!-- Ensure no horizontal scroll on body -->
 <style>
-/* Ensure no horizontal scroll on body */
 html, body { overflow-x: hidden; }
 </style>
+
 {% endblock %}
-
-

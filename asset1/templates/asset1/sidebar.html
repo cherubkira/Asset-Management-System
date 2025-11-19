@@ -1,4 +1,6 @@
 {% extends "asset1/base.html" %}
+{% load static %} 
+{% load widget_tweaks %}
 
 {% block content %}
 <link rel="stylesheet"
@@ -13,9 +15,11 @@
         <div class="flex flex-col justify-between h-full">
 
             <div class="flex flex-col gap-2 p-4">
-              <div>
-                <img src="../images/asset.png" alt="">
-              </div>
+               
+            <div class="mb-4">
+                
+                <img src="{% static 'images/asset.png' %}" alt="Asset Management Logo" class="h-12 mx-auto">
+            </div>
                 <a href="{% url 'asset1:dashboard' %}" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-300">
                     <i class="fas fa-home w-5"></i>
                     <span class="sidebar-text">Dashboard</span>
@@ -122,7 +126,6 @@
 
 </div>
 
----
 
 <script>
     const sidebar = document.getElementById("sidebar");
@@ -131,7 +134,7 @@
     const navbar = document.getElementById("navbar");
 
 
-    // Define widths in rem (now accurately used for all elements)
+    // Define widths in rem 
     const sidebarWidthExpanded = '16rem';
     const sidebarWidthCollapsed = '4.5rem';
     
@@ -144,27 +147,23 @@
         let targetWidth, targetMargin;
 
         if (isExpanded) {
-            // New state is EXPANDED (16rem)
+            
             targetWidth = sidebarWidthExpanded;
             targetMargin = sidebarWidthExpanded;
 
         } else {
-            // New state is COLLAPSED (4.5rem)
+            
             targetWidth = sidebarWidthCollapsed;
             targetMargin = sidebarWidthCollapsed;
         }
         
-        // --- Apply styles dynamically ---
-        sidebar.style.width = targetWidth; // Sidebar width
-        navbar.style.left = targetWidth; // Navbar starting point
-        navbar.style.width = `calc(100vw - ${targetWidth})`; // Navbar width (MUST keep this)
-        mainContent.style.marginLeft = targetMargin; // Main content starting point
         
-        // **REMOVED: mainContent.style.width calculation**
-        // The main content should now automatically fill the remaining space 
-        // because it has no explicit width set, only a margin.
+        sidebar.style.width = targetWidth; 
+        navbar.style.left = targetWidth; 
+        navbar.style.width = `calc(100vw - ${targetWidth})`;
+        mainContent.style.marginLeft = targetMargin; 
         
-        // Toggle text visibility in sidebar
+        
         document.querySelectorAll(".sidebar-text").forEach(el => {
             el.classList.toggle("hidden");
         });
@@ -176,7 +175,7 @@
 
 
 <script>
-// AVATAR & DROPDOWN SCRIPTS (Kept as is)
+
 const username = "{{ user.get_username }}";
 const avatar = document.getElementById("user-avatar");
 
