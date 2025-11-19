@@ -2,50 +2,65 @@
 {% load static %}
 
 {% block page_content %}
-<!-- Add top padding to account for sticky navbar (h-20 -> 5rem) -->
+
 <div class="pt-20">
 
-  <!-- Dashboard Cards: All 4 in one row -->
-  <div class="flex flex-wrap gap-4">
-    <!-- Total Assets -->
-    <div class="flex-1 min-w-[12rem] sm:w-1/4">
-      <div class="bg-blue-600 text-white rounded shadow p-4 text-center">
-        <i class="bi bi-bank text-4xl mb-2"></i>
-        <h5 class="font-medium">Total Assets</h5>
-        <h3 class="text-2xl font-bold">{{ total_assets }}</h3>
-      </div>
-    </div>
+  <!-- Dashboard Cards -->
+<div class="flex flex-wrap gap-4">
 
-    <!-- Available -->
-    <div class="flex-1 min-w-[12rem] sm:w-1/4">
-      <div class="bg-green-600 text-white rounded shadow p-4 text-center">
-        <i class="bi bi-check2-circle text-4xl mb-2"></i>
-        <h5 class="font-medium">Available</h5>
-        <h3 class="text-2xl font-bold">{{ available }}</h3>
+  <!-- Total Assets -->
+  <div class="flex-1 min-w-[12rem]">
+    <div class="bg-blue-600 text-white rounded shadow p-4 flex items-center justify-between">
+      <div>
+        <h5 class="font-medium text-sm uppercase opacity-75">Total Assets</h5>
+        <h3 class="text-3xl font-bold">{{ total_assets }}</h3>
       </div>
-    </div>
-
-    <!-- Assigned -->
-    <div class="flex-1 min-w-[12rem] sm:w-1/4">
-      <div class="bg-yellow-400 text-gray-900 rounded shadow p-4 text-center">
-        <i class="bi bi-people-fill text-4xl mb-2"></i>
-        <h5 class="font-medium">Assigned</h5>
-        <h3 class="text-2xl font-bold">{{ assigned }}</h3>
-      </div>
-    </div>
-
-    <!-- Pending Requests -->
-    <div class="flex-1 min-w-[12rem] sm:w-1/4">
-      <div class="bg-red-600 text-white rounded shadow p-4 text-center">
-        <i class="bi bi-person-lines-fill text-4xl mb-2"></i>
-        <h5 class="font-medium">Pending Requests</h5>
-        <h3 class="text-2xl font-bold">{{ pending_requests }}</h3>
-      </div>
+      <!-- Icon on the right side -->
+      <i class="bi bi-bank text-5xl opacity-50"></i>
     </div>
   </div>
 
-  <!-- Recent Assignments -->
-  <div class="mt-10 bg-white rounded-lg shadow p-4 sm:p-6">
+  <!-- Available -->
+  <div class="flex-1 min-w-[12rem]">
+    <div class="bg-green-600 text-white rounded shadow p-4 flex items-center justify-between">
+      <div>
+        <h5 class="font-medium text-sm uppercase opacity-75">Available</h5>
+        <h3 class="text-3xl font-bold">{{ available }}</h3>
+      </div>
+      <!-- Icon on the right side -->
+      <i class="bi bi-check2-circle text-5xl opacity-50"></i>
+    </div>
+  </div>
+
+  <!-- Assigned -->
+  <div class="flex-1 min-w-[12rem]">
+    <div class="bg-yellow-400 text-gray-900 rounded shadow p-4 flex items-center justify-between">
+      <div>
+        <h5 class="font-medium text-sm uppercase opacity-75">Assigned</h5>
+        <h3 class="text-3xl font-bold">{{ assigned }}</h3>
+      </div>
+      <!-- Icon on the right side -->
+      <i class="bi bi-people-fill text-5xl opacity-50"></i>
+    </div>
+  </div>
+
+  <!-- Maintenance -->
+  <div class="flex-1 min-w-[12rem]">
+    <div class="bg-red-600 text-white rounded shadow p-4 flex items-center justify-between">
+      <div>
+        <h5 class="font-medium text-sm uppercase opacity-75">Maintenance</h5>
+        <h3 class="text-3xl font-bold">{{ maintenance }}</h3>
+      </div>
+      <!-- Icon on the right side -->
+      <i class="bi bi-gear-fill text-5xl opacity-50"></i>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-wrap gap-8 mt-10">
+
+  
+  <div class="flex-1 min-w-[300px] md:w-[calc(50%-1rem)] bg-white rounded-lg shadow p-4 sm:p-6">
     <h2 class="text-2xl font-bold mb-4">Recent Assignments</h2>
     <div class="overflow-x-auto">
       <table class="min-w-full border border-gray-200 rounded-lg">
@@ -77,17 +92,16 @@
     </div>
   </div>
 
-  <!-- Recent Users -->
-  <div class="mt-10 bg-white rounded-lg shadow p-4 sm:p-6">
+  <!-- Recent Users Table -->
+  <div class="flex-1 min-w-[300px] md:w-[calc(50%-1rem)] bg-white rounded-lg shadow p-4 sm:p-6">
     <h2 class="text-2xl font-bold mb-4">Recent Registered Users</h2>
     <div class="overflow-x-auto">
       <table class="min-w-full border border-gray-200 rounded-lg">
         <thead class="bg-gray-100">
           <tr>
             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Profile ID</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Profile Picture</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">First Name</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Last Name</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Picture</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Name</th>
             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Phone Number</th>
             <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 whitespace-nowrap">Email</th>
           </tr>
@@ -98,13 +112,12 @@
             <td class="px-4 py-2 text-center whitespace-nowrap">{{ user.id }}</td>
             <td class="px-4 py-2 text-center">
               {% if user.img %}
-              <img src="{{ user.img.url }}" class="w-12 h-12 rounded-full mx-auto object-cover" />
+              <img src="{{ user.img.url }}" class="w-10 h-10 rounded-full mx-auto object-cover" alt="User Image" />
               {% else %}
-              <img src="{% static 'img/default_profile.png' %}" class="w-12 h-12 rounded-full mx-auto object-cover" />
+              <img src="{% static 'images/default_profile.png' %}" class="w-10 h-10 rounded-full mx-auto object-cover" alt="Default Profile Image" />
               {% endif %}
             </td>
-            <td class="px-4 py-2 whitespace-nowrap">{{ user.first_name }}</td>
-            <td class="px-4 py-2 whitespace-nowrap">{{ user.last_name }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ user.first_name }} {{ user.last_name }}</td>
             <td class="px-4 py-2 whitespace-nowrap">{{ user.phone_number }}</td>
             <td class="px-4 py-2 whitespace-nowrap">{{ user.email }}</td>
           </tr>
@@ -117,6 +130,9 @@
       </table>
     </div>
   </div>
+</div>
+
+
 
   <!-- Asset Pie Chart -->
   <div class="mt-6 bg-white rounded shadow p-4">

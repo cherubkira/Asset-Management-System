@@ -24,6 +24,7 @@ def dashboard(request):
     available = Asset.objects.filter(status=Asset.STATUS_AVAILABLE, is_active=True).count()
     assigned = Asset.objects.filter(status=Asset.STATUS_ASSIGNED, is_active=True).count()
     pending_requests = AssetRequest.objects.filter(status=AssetRequest.STATUS_PENDING).count()
+    maintenance = Asset.objects.filter(status=Asset.STATUS_MAINTENANCE, is_active=True).count()
 
     recent_history = list(
         AssignmentHistory.objects.select_related("asset", "assigned_to", "assigned_from")
@@ -32,16 +33,17 @@ def dashboard(request):
     
     recent_employees = EmployeeList.objects.order_by('id')[:10]
 
-    assigned_percentage = (assigned / total_assets * 100) if total_assets else 0
+    assigned_percentage = (assigned / total_assets * 100) if total_assets > 0 else 0
 
     context = {
         "total_assets": total_assets,
         "available": available,
         "assigned": assigned,
         "pending_requests": pending_requests,
+        "maintenance": maintenance,
         "recent_assignments": recent_history,
         "employees": recent_employees,
-        "assigned_percentage": round(assigned_percentage, 2),  
+        "assigned_percentage": round(assigned_percentage, 2), 
     }
     return render(request, 'asset1/dashboard.html', context)
 
