@@ -12,7 +12,7 @@ urlpatterns = [
     path('asset/employees/', views.employee_list, name='employee_list'),
     path('asset/employees/add/', views.employee_create, name='employee_create'),
     path('assets/history/', views.asset_history, name='asset_history'),
-    
+
     path('assets/category/', views.category_list, name='asset_category'),
     path('assets/category/add/', views.category_create, name='category_create'),
     path("asset/Subcategory/", views.subcategory_list, name="subcategory_list"),

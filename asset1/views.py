@@ -9,9 +9,6 @@ from django.contrib import messages
 from django.db.models import Q
 
 
-
-
-
 def landing_page(request):
     if request.user.is_authenticated:   
         return redirect('asset1:dashboard')
@@ -32,7 +29,6 @@ def dashboard(request):
     )
     
     recent_employees = EmployeeList.objects.order_by('id')[:10]
-
     assigned_percentage = (assigned / total_assets * 100) if total_assets > 0 else 0
 
     context = {
@@ -50,10 +46,7 @@ def dashboard(request):
 
 @login_required
 def asset_list(request):
-    
-    
     find_asset = request.GET.get("find_asset","") 
-
     assets = Asset.objects.select_related("assigned_to", "category").filter(
         Q(name__icontains=find_asset) 
         | Q(category__name__icontains=find_asset)
@@ -107,6 +100,7 @@ def employee_create(request):
         form = EmployeeForm()
     return render(request, 'asset1/employee_list_form.html', {'form': form})
 
+@login_required
 def employee_list(request):
     query = request.GET.get('find_asset', '')  
     if query:
@@ -123,10 +117,12 @@ def employee_list(request):
 
     return render(request, 'asset1/employee_list.html', {'employees': employees})
 
+@login_required
 def category_list(request):
     categories = Category.objects.all()
     return render(request, 'asset1/asset_category.html', {'categories': categories})
 
+@login_required
 def category_create(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -138,6 +134,7 @@ def category_create(request):
     return render(request, 'asset1/asset_category_create.html', {'form': form})
 
 
+@login_required
 def subcategory_create(request):
     if request.method == "POST":
         form = SubCategoryForm(request.POST)
@@ -148,6 +145,7 @@ def subcategory_create(request):
         form = SubCategoryForm()
     return render(request, "asset1/asset_subc_list.html", {"form": form})
 
+@login_required
 def subcategory_list(request):
     subcategories = SubCategory.objects.all()
     return render(request, "asset1/asset_subca.html", {"subcategories": subcategories})
@@ -170,6 +168,7 @@ def asset_delete(request, pk):
     return redirect("asset1:asset_status")
 
 
+@login_required
 def asset_request_list(request):
     requests = (
         AssetRequest.objects
@@ -179,6 +178,7 @@ def asset_request_list(request):
     )
     return render(request, "asset1/request_list.html", {"requests": requests})
 
+@login_required
 def create_asset_request(request):
     if request.method == "POST":
         form = AssetRequestForm(request.POST)
@@ -192,11 +192,13 @@ def create_asset_request(request):
     return render(request, "asset1/request_form.html", {"form": form})
 
 
+@login_required
 def asset_issue_list(request):
     issues = IssueReport.objects.select_related("asset", "reporter").all().order_by('-created_at')
     return render(request, "asset1/issue_list.html", {"issues": issues,})
 
 
+@login_required
 def asset_update(request, pk):
     asset = get_object_or_404(Asset, pk=pk)
     if request.method == "POST":
