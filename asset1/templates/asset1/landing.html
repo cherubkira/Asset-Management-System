@@ -119,6 +119,34 @@
   </div>
 </section>
 
+<!-- Success/Error Message Pop-up Container -->
+<div id="message-popup-container" class="fixed inset-0 flex items-center justify-center z-50 p-4 pointer-events-none bg-black bg-opacity-50" style="display: none;">
+    {% if messages %}
+      {% for message in messages %}
+        <!-- Removed pointer-events-auto from here, controlled by container now -->
+        <div id="message-popup" class="max-w-md mx-auto transform transition-all duration-500 scale-95 opacity-0">
+          {% if message.tags == 'success' %}
+            <!-- Success Alert Styling -->
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-2xl" role="alert">
+              <p class="font-bold">Success!</p>
+              <p>{{ message }}</p>
+            </div>
+          {% elif message.tags == 'error' %}
+            <!-- Error Alert Styling -->
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-2xl" role="alert">
+                <p class="font-bold">Error!</p>
+                <p>{{ message }}</p>
+            </div>
+          {% else %}
+             <!-- Default Alert Styling -->
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg shadow-2xl" role="alert">
+                <p>{{ message }}</p>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-gray-300 py-6 mt-10">
@@ -139,5 +167,35 @@
       menu.classList.toggle('flex');
     });
   </script>
+
+ 
+ <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const container = document.getElementById('message-popup-container');
+        const popup = document.getElementById('message-popup');
+
+        if (popup && container) {
+            
+            container.style.display = 'flex'; 
+        
+            popup.classList.remove('scale-95', 'opacity-0');
+            popup.classList.add('scale-100', 'opacity-100');
+
+
+            
+            setTimeout(() => {
+                
+                popup.classList.remove('scale-100', 'opacity-100');
+                popup.classList.add('scale-95', 'opacity-0');
+
+               
+                setTimeout(() => {
+                    container.style.display = 'none';
+                }, 200); 
+            }, 2000);
+        }
+    });
+  </script>
+
 </body>
 </html>
