@@ -13,8 +13,14 @@
                 {% if field.errors %}
                 <p class="text-red-500 text-sm mt-1">{{ field.errors|striptags }}</p>
                 {% endif %}
+                
             </div>
+
+           
             {% endfor %}
+             <div>
+                <a href="">Forgot Password?</a>
+            </div>
             <button type="submit" 
                     class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors duration-200">
                 Login

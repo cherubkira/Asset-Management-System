@@ -1,19 +1,50 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Asset, AssignmentHistory, AssetRequest, IssueReport
-from .forms import AssetForm
+from .forms import AssetForm,ContactForm
 from django.core.paginator import Paginator
 from .models import EmployeeList,Category,SubCategory,IssueReport
 from .forms import EmployeeForm, CategoryForm, SubCategoryForm, AssetRequestForm
 from django.contrib import messages
 from django.db.models import Q
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.conf import settings
 
 
 def landing_page(request):
+   
     if request.user.is_authenticated:   
         return redirect('asset1:dashboard')
-    return render(request, 'asset1/landing.html')
 
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = 'Website Contact Form Inquiry'
+            body = {
+                'name': form.cleaned_data['name'],
+                'email': form.cleaned_data['email'],
+                'message': form.cleaned_data['message'],
+            }
+            message_body = "\n".join(body.values())
+
+            try:
+                send_mail(subject, message_body, settings.EMAIL_HOST_USER, ['your_recipient_email@example.com'])
+                messages.success(request, 'Your message has been sent successfully!')
+            except Exception as e:
+                messages.error(request, f'There was an error sending your message: {e}')
+            
+            
+            return redirect('asset1:landing') 
+        else:
+           
+            contact_form = form
+    else:
+
+        contact_form = ContactForm()
+    
+    context = {'form': contact_form}
+    return render(request, 'asset1/landing.html', context)
 
 @login_required
 def dashboard(request):
@@ -209,3 +240,8 @@ def asset_update(request, pk):
     else:
         form = AssetForm(instance=asset)
     return render(request, "asset1/asset_form.html", {"form": form})
+
+
+def contact_view(request):
+     return redirect('asset1:landing_page') 
+        

@@ -90,13 +90,35 @@
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-16 text-center bg-white">
-    <div class="container mx-auto px-4">
-      <h2 class="text-gray-800 text-4xl font-extrabold mb-4">Contact Us</h2>
-      <p class="text-gray-600 mb-6">Have questions or feedback? Reach out to your IT department for support.</p>
-      <a href="mailto:kirubelmelaku2019@gmail.com" class="px-6 py-3 text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200">Send Email</a>
+<section id="contact" class="py-16 text-center bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-gray-800 text-4xl font-extrabold mb-4">Contact Us</h2>
+    <p class="text-gray-600 mb-6">Have questions or feedback? Reach out to your IT department for support.</p>
+    
+    <!-- Contact Form -->
+    <div class="max-w-md mx-auto">
+      <form action="{% url 'asset1:landing' %}" method="post" class="space-y-4">
+        {% csrf_token %}
+        
+        <!-- Render form fields manually to apply Tailwind styles -->
+        {% for field in form %}
+          <div class="mb-4">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <p class="text-red-500 text-sm mt-1 text-left">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endfor %}
+        
+        <button type="submit" class="w-full px-6 py-3 text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200">Send Message</button>
+      </form>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-gray-300 py-6 mt-10">

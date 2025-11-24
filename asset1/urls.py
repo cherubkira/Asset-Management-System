@@ -6,6 +6,7 @@ app_name = "asset1"
 
 urlpatterns = [
     path('', views.landing_page, name='landing'),
+    path('contact/', views.contact_view, name='contact_view'), 
     path('dashboard/', views.dashboard, name='dashboard'),
     path('assets/', views.asset_list, name='asset_list'),
     path('asset/create/', views.asset_create, name='asset-create'),
